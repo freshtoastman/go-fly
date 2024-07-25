@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `name`, `password`, `nickname`, `created_at`, `updated_at`, `deleted_at`, `avator`) VALUE
-(1, 'kefu2', '202cb962ac59075b964b07152d234b70', '智能客服系统', '2020-06-27 19:32:41', '2020-07-04 09:32:20', NULL, '/static/images/4.jpg');
+(1, 'teach_support', '202cb962ac59075b964b07152d234b70', '國中小客服系统', '2020-06-27 19:32:41', '2020-07-04 09:32:20', NULL, '/static/images/4.jpg');
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -87,9 +87,9 @@ CREATE TABLE `welcome` (
  KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 INSERT INTO `welcome` (`id`, `user_id`, `content`, `is_default`, `ctime`, `keyword`) VALUES
-(NULL, 'kefu2', '我暂时离线，留言已转发到我的邮箱，稍后回复~', 1, '2020-08-24 02:57:49','offline');
+(NULL, 'teach_support', '我暫時離線,留言已轉發到我的信箱,稍後回覆～', 1, '2020-08-24 02:57:49','offline');
 INSERT INTO `welcome` (`id`, `user_id`, `content`, `is_default`, `ctime`, `keyword`) VALUES
-(NULL, 'kefu2', '请问有什么可以帮您？', 0, '2020-08-24 02:57:49','welcome');
+(NULL, 'teach_support', '請問有什麼可以幫您？', 0, '2020-08-24 02:57:49','welcome');
 
 DROP TABLE IF EXISTS `ipblack`;
 CREATE TABLE `ipblack` (
@@ -110,12 +110,12 @@ CREATE TABLE `config` (
  PRIMARY KEY (`id`),
  UNIQUE KEY `conf_key` (`conf_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '公告信息', 'AllNotice', '开源智能客服系统为您服务');
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '离线消息', 'OfflineMessage', '我现在离线，稍后回复您！');
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '欢迎消息', 'WelcomeMessage', '有什么可以帮您？');
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '邮箱地址(SMTP地址)', 'NoticeEmailSmtp', '');
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '邮箱账户', 'NoticeEmailAddress', '');
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '邮箱密码(SMTP密码)', 'NoticeEmailPassword', '');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '公告信息', 'AllNotice', '國中小課程與教學計畫客服系统為您服務');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '離線消息', 'OfflineMessage', '我現在離線,稍後回覆您！');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '歡迎消息', 'WelcomeMessage', '有什麼可以幫您？');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '信箱地址(SMTP地址)', 'NoticeEmailSmtp', '');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '信箱帳號', 'NoticeEmailAddress', '');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '信箱密碼(SMTP密碼)', 'NoticeEmailPassword', '');
 
 DROP TABLE IF EXISTS `about`;
 CREATE TABLE `about` (
@@ -141,7 +141,7 @@ CREATE TABLE `reply_group` (
  PRIMARY KEY (`id`),
  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `reply_group` (`id`, `group_name`, `user_id`) VALUES (NULL, '常见问题', 'kefu2');
+INSERT INTO `reply_group` (`id`, `group_name`, `user_id`) VALUES (NULL, '常見問題', 'teach_support');
 DROP TABLE IF EXISTS `reply_item`;
 CREATE TABLE `reply_item` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -153,7 +153,7 @@ CREATE TABLE `reply_item` (
  KEY `user_id` (`user_id`),
  KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `reply_item` (`id`, `content`, `group_id`, `user_id`, `item_name`) VALUES (NULL, '在这里[官网]link[https://gofly.sopans.com]!','1','kefu2', '官方地址在哪?');
+INSERT INTO `reply_item` (`id`, `content`, `group_id`, `user_id`, `item_name`) VALUES (NULL, '在這裏[官網]link[https://teach.cloud.ncnu.edu.tw]!','1','teach_support', '網站網址在哪?');
 DROP TABLE IF EXISTS `land_page`;
 CREATE TABLE `land_page` (
   `id` int(11) NOT NULL,

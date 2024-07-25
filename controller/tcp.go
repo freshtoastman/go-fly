@@ -1,9 +1,10 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	"net"
+
+	"github.com/gin-gonic/gin"
 )
 
 var clientTcpList = make(map[string]net.Conn)
@@ -14,7 +15,7 @@ func NewTcpServer(tcpBaseServer string) {
 		log.Println("Error listening", err.Error())
 		return //终止程序
 	}
-	// 监听并接受来自客户端的连接
+	// 监听並接受来自客戶端的連接
 	for {
 		conn, err := listener.Accept()
 		if err != nil {

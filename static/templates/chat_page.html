@@ -3,8 +3,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
     <meta name="keywords" content="开源客服系统"/>
-    <meta name="description" content="golang开发的开源免费客服系统,可独立部署客服系统,支持文字/表情/图片/文件发送,支持快捷回复,支持IP黑名单,展示访客信息,后台权限控制"/>
-    <title>开源智能在线客服系统</title>
+    <title>國中小課程與教學計畫客服系統</title>
     <link rel="stylesheet" href="/static/cdn/element-ui/2.15.1/theme-chalk/index.min.css">
     <script src="/static/cdn/vue/2.6.11/vue.min.js"></script>
     <script src="/static/cdn/element-ui/2.15.1/index.js"></script>
@@ -20,7 +19,7 @@
 <body class="visitorBody">
 <div id="app"  class="chatCenter">
     <template>
-        <!--客服代码-->
+        <!--客服代碼-->
         <div class="chatEntTitle" v-show="!isIframe">
             <el-badge type="success" is-dot class="item">
                 <el-avatar class="chatEntTitleLogo" :size="35" :src="kefuInfo.avatar"></el-avatar>
@@ -33,7 +32,7 @@
             <div class="chatContext chatVisitorPage">
                 <div class="chatBox">
                     <div class="chatNotice" v-on:click="getHistoryMessage" v-show="showLoadMore">
-                        <a href="javascript:;" class="chatNoticeContent" style="color: #07a9fe;">点击加载更多记录</a>
+                        <a href="javascript:;" class="chatNoticeContent" style="color: #07a9fe;">點擊加载更多紀錄</a>
                     </div>
                     <el-row :gutter="2" v-for="v in msgList" v-bind:class="{'chatBoxMe': v.is_kefu==false}">
                         <div class="chatTime" v-bind:class="{'chatTimeHide': v.show_time==false}"><span><{v.time}></span></div>
@@ -54,14 +53,14 @@
             <div class="chatBoxSend">
 
                 <div class="visitorIconBox">
-                    <el-tooltip content="发送表情" placement="top">
+                    <el-tooltip content="發送表情" placement="top">
                         <div class="iconBtn iconfont icon-xiaolian" style="margin-left:10px;font-size: 24px;cursor: pointer;" @click.stop="showFaceIcon==true?showFaceIcon=false:showFaceIcon=true"></div>
                     </el-tooltip>
 
-                    <el-tooltip content="上传图片" placement="top">
+                    <el-tooltip content="上傳圖片" placement="top">
                         <div class="iconBtn el-icon-picture" id="uploadImg" v-on:click="uploadImg('/uploadimg')" style="font-size: 24px;"></div>
                     </el-tooltip>
-                    <el-tooltip content="上传附件" placement="top">
+                    <el-tooltip content="上傳附件" placement="top">
                         <div  class="iconBtn el-icon-upload" id="uploadFile" v-on:click="uploadFile('/uploadfile')" style="font-size: 26px;"></div>
                     </el-tooltip>
 
@@ -87,7 +86,7 @@
         </div>
 
 
-        <!--//客服代码-->
+        <!--//客服代碼-->
         <audio id="chatMessageAudio">
         </audio>
         <audio id="chatMessageSendAudio">

@@ -1,11 +1,12 @@
 package tools
 
 import (
-	"github.com/sirupsen/logrus"
 	"log"
 	"os"
 	"path"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 var logrusObj *logrus.Logger
@@ -13,7 +14,7 @@ var logrusObj *logrus.Logger
 func Logger() *logrus.Logger {
 	if logrusObj != nil {
 		src, _ := setOutputFile()
-		//设置输出
+		//設置输出
 		logrusObj.Out = src
 		return logrusObj
 	}
@@ -21,11 +22,11 @@ func Logger() *logrus.Logger {
 	//实例化
 	logger := logrus.New()
 	src, _ := setOutputFile()
-	//设置输出
+	//設置输出
 	logger.Out = src
-	//设置日志级别
+	//設置日志级别
 	logger.SetLevel(logrus.DebugLevel)
-	//设置日志格式
+	//設置日志格式
 	logger.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
@@ -54,7 +55,7 @@ func setOutputFile() (*os.File, error) {
 			return nil, err
 		}
 	}
-	//写入文件
+	//寫入文件
 	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {
 		log.Println(err)
@@ -66,28 +67,28 @@ func setOutputFile() (*os.File, error) {
 //func LoggerToFile() gin.HandlerFunc {
 //	logger := Logger()
 //	return func(c *gin.Context) {
-//		// 开始时间
+//		// 开始時间
 //		startTime := time.Now()
 //
-//		// 处理请求
+//		// 處理請求
 //		c.Next()
 //
-//		// 结束时间
+//		// 结束時间
 //		endTime := time.Now()
 //
-//		// 执行时间
+//		// 执行時间
 //		latencyTime := endTime.Sub(startTime)
 //
-//		// 请求方式
+//		// 請求方式
 //		reqMethod := c.Request.Method
 //
-//		// 请求路由
+//		// 請求路由
 //		reqUri := c.Request.RequestURI
 //
-//		// 状态码
+//		// 狀態碼
 //		statusCode := c.Writer.Status()
 //
-//		// 请求IP
+//		// 請求IP
 //		clientIP := c.ClientIP()
 //
 //		//日志格式

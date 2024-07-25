@@ -9,7 +9,7 @@
             <el-main class="mainMain">
                 <el-row :gutter="10">
                     <el-col :span="2">
-                        发件人:
+                        發件人:
                     </el-col>
                     <el-col :span="22">
                         <{from}>
@@ -25,7 +25,7 @@
                 </el-row>
                 <el-row :gutter="10">
                     <el-col :span="2">
-                        时间:
+                        時间:
                     </el-col>
                     <el-col :span="22">
                         <{date}>
@@ -33,7 +33,7 @@
                 </el-row>
                 <el-row :gutter="10">
                     <el-col :span="2">
-                        标题:
+                        標題:
                     </el-col>
                     <el-col :span="22">
                         <{subject}>
@@ -68,7 +68,7 @@
             html:"",
         },
         methods: {
-            //获取邮件夹
+            //獲得邮件夹
             getMail: function (fid,id) {
                 this.fullscreenLoading=true;
                 var data={};
@@ -94,7 +94,7 @@
                     _this.fullscreenLoading=false;
                 });
             },
-            //跳转
+            //跳轉
             openUrl(url){
                 window.location.href=url;
             },

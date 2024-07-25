@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/common"
 	"github.com/taoshihan1991/imaptool/models"
-	"strconv"
 )
 
 func PostIpblack(c *gin.Context) {
@@ -12,7 +13,7 @@ func PostIpblack(c *gin.Context) {
 	if ip == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "请输入IP!",
+			"msg":  "請輸入IP!",
 		})
 		return
 	}
@@ -20,7 +21,7 @@ func PostIpblack(c *gin.Context) {
 	models.CreateIpblack(ip, kefuId.(string))
 	c.JSON(200, gin.H{
 		"code": 200,
-		"msg":  "添加黑名单成功!",
+		"msg":  "添加黑名單成功!",
 	})
 }
 func DelIpblack(c *gin.Context) {
@@ -28,14 +29,14 @@ func DelIpblack(c *gin.Context) {
 	if ip == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "请输入IP!",
+			"msg":  "請輸入IP!",
 		})
 		return
 	}
 	models.DeleteIpblackByIp(ip)
 	c.JSON(200, gin.H{
 		"code": 200,
-		"msg":  "删除黑名单成功!",
+		"msg":  "刪除黑名單成功!",
 	})
 }
 func GetIpblacks(c *gin.Context) {

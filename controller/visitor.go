@@ -2,63 +2,64 @@ package controller
 
 import (
 	"encoding/json"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/common"
 	"github.com/taoshihan1991/imaptool/models"
 	"github.com/taoshihan1991/imaptool/tools"
 	"github.com/taoshihan1991/imaptool/ws"
-	"strconv"
 )
 
-//func PostVisitor(c *gin.Context) {
-//	name := c.PostForm("name")
-//	avator := c.PostForm("avator")
-//	toId := c.PostForm("to_id")
-//	id := c.PostForm("id")
-//	refer := c.PostForm("refer")
-//	city := c.PostForm("city")
-//	client_ip := c.PostForm("client_ip")
-//	if name == "" || avator == "" || toId == "" || id == "" || refer == "" || city == "" || client_ip == "" {
-//		c.JSON(200, gin.H{
-//			"code": 400,
-//			"msg":  "error",
-//		})
-//		return
-//	}
-//	kefuInfo := models.FindUser(toId)
-//	if kefuInfo.ID == 0 {
-//		c.JSON(200, gin.H{
-//			"code": 400,
-//			"msg":  "用户不存在",
-//		})
-//		return
-//	}
-//	models.CreateVisitor(name, avator, c.ClientIP(), toId, id, refer, city, client_ip)
-//
-//	userInfo := make(map[string]string)
-//	userInfo["uid"] = id
-//	userInfo["username"] = name
-//	userInfo["avator"] = avator
-//	msg := TypeMessage{
-//		Type: "userOnline",
-//		Data: userInfo,
-//	}
-//	str, _ := json.Marshal(msg)
-//	kefuConns := kefuList[toId]
-//	if kefuConns != nil {
-//		for k, kefuConn := range kefuConns {
-//			log.Println(k, "xxxxxxxx")
-//			kefuConn.WriteMessage(websocket.TextMessage, str)
+//	func PostVisitor(c *gin.Context) {
+//		name := c.PostForm("name")
+//		avator := c.PostForm("avator")
+//		toId := c.PostForm("to_id")
+//		id := c.PostForm("id")
+//		refer := c.PostForm("refer")
+//		city := c.PostForm("city")
+//		client_ip := c.PostForm("client_ip")
+//		if name == "" || avator == "" || toId == "" || id == "" || refer == "" || city == "" || client_ip == "" {
+//			c.JSON(200, gin.H{
+//				"code": 400,
+//				"msg":  "error",
+//			})
+//			return
 //		}
+//		kefuInfo := models.FindUser(toId)
+//		if kefuInfo.ID == 0 {
+//			c.JSON(200, gin.H{
+//				"code": 400,
+//				"msg":  "用戶不存在",
+//			})
+//			return
+//		}
+//		models.CreateVisitor(name, avator, c.ClientIP(), toId, id, refer, city, client_ip)
+//
+//		userInfo := make(map[string]string)
+//		userInfo["uid"] = id
+//		userInfo["username"] = name
+//		userInfo["avator"] = avator
+//		msg := TypeMessage{
+//			Type: "userOnline",
+//			Data: userInfo,
+//		}
+//		str, _ := json.Marshal(msg)
+//		kefuConns := kefuList[toId]
+//		if kefuConns != nil {
+//			for k, kefuConn := range kefuConns {
+//				log.Println(k, "xxxxxxxx")
+//				kefuConn.WriteMessage(websocket.TextMessage, str)
+//			}
+//		}
+//		c.JSON(200, gin.H{
+//			"code": 200,
+//			"msg":  "ok",
+//		})
 //	}
-//	c.JSON(200, gin.H{
-//		"code": 200,
-//		"msg":  "ok",
-//	})
-//}
 func PostVisitorLogin(c *gin.Context) {
 	ipcity := tools.ParseIp(c.ClientIP())
-	avator:=""
+	avator := ""
 	userAgent := c.GetHeader("User-Agent")
 	if tools.IsMobile(userAgent) {
 		avator = "/static/images/1.png"
@@ -79,10 +80,10 @@ func PostVisitorLogin(c *gin.Context) {
 	)
 	if ipcity != nil {
 		city = ipcity.CountryName + ipcity.RegionName + ipcity.CityName
-		name = ipcity.CountryName + ipcity.RegionName + ipcity.CityName + "网友"
+		name = ipcity.CountryName + ipcity.RegionName + ipcity.CityName + "網友"
 	} else {
-		city = "未识别地区"
-		name = "匿名网友"
+		city = "未識別地區"
+		name = "匿名網友"
 	}
 	client_ip := c.ClientIP()
 	extra := c.PostForm("extra")
@@ -118,7 +119,7 @@ func PostVisitorLogin(c *gin.Context) {
 	visitor := models.FindVisitorByVistorId(id)
 	if visitor.Name != "" {
 		avator = visitor.Avator
-		//更新状态上线
+		//更新狀態上線
 		models.UpdateVisitor(name, visitor.Avator, id, 1, c.ClientIP(), c.ClientIP(), refer, extra)
 	} else {
 		models.CreateVisitor(name, avator, c.ClientIP(), toId, id, refer, city, client_ip, extra)
@@ -152,11 +153,11 @@ func GetVisitor(c *gin.Context) {
 	})
 }
 
-// @Summary 获取访客列表接口
+// @Summary 獲得訪客列表接口
 // @Produce  json
 // @Accept multipart/form-data
-// @Param page query   string true "分页"
-// @Param token header string true "认证token"
+// @Param page query   string true "分頁"
+// @Param token header string true "認證token"
 // @Success 200 {object} controller.Response
 // @Failure 200 {object} controller.Response
 // @Router /visitors [get]
@@ -180,11 +181,11 @@ func GetVisitors(c *gin.Context) {
 	})
 }
 
-// @Summary 获取访客聊天信息接口
+// @Summary 獲得訪客聊天信息接口
 // @Produce  json
 // @Accept multipart/form-data
-// @Param visitorId query   string true "访客ID"
-// @Param token header string true "认证token"
+// @Param visitorId query   string true "訪客ID"
+// @Param token header string true "認證token"
 // @Success 200 {object} controller.Response
 // @Failure 200 {object} controller.Response
 // @Router /messages [get]
@@ -215,7 +216,7 @@ func GetVisitorMessage(c *gin.Context) {
 	})
 }
 
-// @Summary 获取在线访客列表接口
+// @Summary 獲得在線訪客列表接口
 // @Produce  json
 // @Success 200 {object} controller.Response
 // @Failure 200 {object} controller.Response
@@ -256,7 +257,7 @@ func GetVisitorOnlines(c *gin.Context) {
 	})
 }
 
-// @Summary 获取客服的在线访客列表接口
+// @Summary 獲得客服的在線訪客列表接口
 // @Produce  json
 // @Success 200 {object} controller.Response
 // @Failure 200 {object} controller.Response
@@ -286,7 +287,7 @@ func GetKefusVisitorOnlines(c *gin.Context) {
 	for _, user := range users {
 		user.LastMessage = temp[user.Uid]
 		if user.LastMessage == "" {
-			user.LastMessage = "新访客"
+			user.LastMessage = "新訪客"
 		}
 	}
 

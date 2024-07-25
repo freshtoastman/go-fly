@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>GO语言开源客服系统-GOFLY</title>
+    <title>國中小課程與教學計畫客服系統</title>
     <link rel="stylesheet" href="/static/cdn/element-ui/2.15.1/theme-chalk/index.min.css">
     <script src="/static/cdn/vue/2.6.11/vue.min.js"></script>
     <script src="/static/cdn/element-ui/2.15.1/index.js"></script>
@@ -38,7 +38,7 @@
                 <el-col :span="5">
                     <div class="chatBg chatLeft">
                         <el-tabs v-model="leftTabActive" @tab-click="handleTabClick">
-                            <el-tab-pane label="在线用户" name="first">
+                            <el-tab-pane label="在線用戶" name="first">
                                 <el-row  v-for="item in users" :key="item.uid" class="">
                                     <div :title="item.last_message" style="cursor:pointer" class="onlineUsers hasLastMsg" v-bind:class="{'cur': item.uid==currentGuest }" v-on:click="talkTo(item.uid,item.username)">
                                         <el-col :span="4">
@@ -53,7 +53,7 @@
                                     </div>
                                 </el-row>
                             </el-tab-pane>
-                            <el-tab-pane label="已接访客" name="second">
+                            <el-tab-pane label="已接訪客" name="second">
                                 <el-row  v-for="item in visitors" :key="item.uid" class="">
                                     <div style="cursor:pointer" class="onlineUsers" v-bind:class="{'cur': item.visitor_id==currentGuest }" v-on:click="talkTo(item.visitor_id,item.name)">
                                         <el-col :span="4">
@@ -88,12 +88,12 @@
                         </el-alert>
                         <div class="kefuFuncBtns" v-if="visitor.visitor_id" style="display: none">
                             <el-button v-on:click="getMesssagesByVisitorId(visitor.visitor_id,true)" size="small" type="success" plain icon="el-icon-user">加载全部</el-button>
-                            <el-button v-on:click="transKefu" size="small" type="success" plain icon="el-icon-position">转接</el-button>
+                            <el-button v-on:click="transKefu" size="small" type="success" plain icon="el-icon-position">轉接</el-button>
                             <el-button v-on:click="closeVisitor(visitor.visitor_id)" size="small" type="success" plain icon="el-icon-close">结束</el-button>
                         </div>
                         <div class="chatBox">
                             <div style="text-align: center;" v-on:click="getHistoryMessage" v-show="showLoadMore">
-                                <a href="javascript:;" class="chatNoticeContent" style="color: #07a9fe;">点击加载更多记录</a>
+                                <a href="javascript:;" class="chatNoticeContent" style="color: #07a9fe;">點擊加载更多紀錄</a>
                             </div>
                             <el-row :gutter="2" v-for="v in msgList" v-bind:class="{'chatBoxMe': v.is_kefu==true}">
                                 <div class="chatTime"><{v.time}></div>
@@ -116,21 +116,21 @@
                                     </ul>
                                     <div class="clear"></div>
                                 </div>
-                                <el-tooltip content="发送表情" placement="top">
+                                <el-tooltip content="發送表情" placement="top">
                                     <div class="iconBtn iconfont icon-xiaolian" style="font-size: 24px;" @click.stop="showFaceIcon==true?showFaceIcon=false:showFaceIcon=true"></div>
                                 </el-tooltip>
 
-                                <el-tooltip content="上传图片" placement="top">
+                                <el-tooltip content="上傳圖片" placement="top">
                                     <div class="iconBtn el-icon-picture" id="uploadImg" v-on:click="uploadImg('/uploadimg')" style="font-size: 24px;"></div>
                                 </el-tooltip>
-                                <el-tooltip content="上传附件" placement="top">
+                                <el-tooltip content="上傳附件" placement="top">
                                     <div  class="iconBtn el-icon-upload" id="uploadFile" v-on:click="uploadFile('/uploadfile')" style="font-size: 26px;"></div>
                                 </el-tooltip>
 
                             </div>
                             <div class="clear"></div>
-                            <el-button class="kefuSendBtn" :disabled="sendDisabled" size="mini" type="primary" v-on:click="chatToUser">发送</el-button>
-                            <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 12}" class="chatArea" v-model="messageContent"  v-on:keyup.enter.native="chatToUser"  placeholder="请输入内容"></el-input>
+                            <el-button class="kefuSendBtn" :disabled="sendDisabled" size="mini" type="primary" v-on:click="chatToUser">發送</el-button>
+                            <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 12}" class="chatArea" v-model="messageContent"  v-on:keyup.enter.native="chatToUser"  placeholder="請輸入内容"></el-input>
                         </div>
 
                     </div>
@@ -138,30 +138,30 @@
                 <el-col :span="6" class="chatRight">
                     <div   class="chatBg">
                         <el-tabs v-model="rightTabActive" @tab-click="handleTabClick">
-                            <el-tab-pane label="访客信息" name="visitorInfo">
+                            <el-tab-pane label="訪客信息" name="visitorInfo">
                                 <el-menu class="visitorInfo" v-show="visitor.visitor_id">
-                                    <el-tooltip content="点击加入黑名单" placement="left">
-                                        <el-menu-item v-on:click="addIpblack(visitor.source_ip)" title="点击加入黑名单" style="padding-left:2px;color: #666;">
+                                    <el-tooltip content="點擊加入黑名單" placement="left">
+                                        <el-menu-item v-on:click="addIpblack(visitor.source_ip)" title="點擊加入黑名單" style="padding-left:2px;color: #666;">
                                             <i class="el-icon-user"></i>
                                             <span slot="title">IP地址：<{visitor.source_ip}></span>
                                         </el-menu-item>
                                     </el-tooltip>
-                                    <el-menu-item v-on:click="openUrl('https://www.baidu.com/s?wd='+visitor.client_ip)" style="padding-left:2px;color: #666;">
+                                    <el-menu-item v-on:click="openUrl('https://google.com/s?wd='+visitor.client_ip)" style="padding-left:2px;color: #666;">
                                         <i class="el-icon-map-location"></i>
                                         <span slot="title">城市：<{visitor.city}></span>
                                     </el-menu-item>
                                     <el-menu-item style="padding-left:2px;color: #666;">
                                         <i class="el-icon-time"></i>
-                                        <span slot="title">首次访问：<{visitor.created_at}></span>
+                                        <span slot="title">首次訪問：<{visitor.created_at}></span>
                                     </el-menu-item>
                                     <el-menu-item style="padding-left:2px;color: #666;">
                                         <i class="el-icon-time"></i>
-                                        <span slot="title">最后访问：<{visitor.updated_at}></span>
+                                        <span slot="title">最後訪問：<{visitor.updated_at}></span>
                                     </el-menu-item>
                                     <el-tooltip :content="visitor.refer" placement="left">
                                         <el-menu-item  style="padding-left:2px;color: #666;">
                                             <i class="el-icon-guide"></i>
-                                            <span slot="title" >来源标题：<{visitor.refer}></span>
+                                            <span slot="title" >來源標題：<{visitor.refer}></span>
                                         </el-menu-item>
                                     </el-tooltip>
                                     <el-tooltip  v-for="v in visitorExtra" :content="v.val" placement="left">
@@ -172,9 +172,9 @@
                                     </el-tooltip>
                                 </el-menu>
                             </el-tab-pane>
-                            <el-tab-pane label="黑名单" name="blackList">
+                            <el-tab-pane label="黑名單" name="blackList">
                                 <el-row  v-for="item in ipBlacks" :key="item.id" class="">
-                                    <el-tooltip content="点击删除黑名单" placement="left">
+                                    <el-tooltip content="點擊刪除黑名單" placement="left">
                                     <div v-on:click="delIpblack(item.ip)" style="cursor:pointer" class="onlineUsers imgGray">
                                             <{item.ip}>
                                     </div>
@@ -184,10 +184,10 @@
                         </el-tabs>
                     </div>
                     <div class="replyBox">
-                        <div class="chatRightTitle">快捷回复
-                        <a href="javascript:void(0);"  @click="replyGroupDialog = true">+添加分组</a>
+                        <div class="chatRightTitle">快捷回覆
+                        <a href="javascript:void(0);"  @click="replyGroupDialog = true">+添加分組</a>
                         </div>
-                        <el-input placeholder="选中文字自动搜索" v-model="replySearch" class="replySearch" @keyup.enter="searchReply">
+                        <el-input placeholder="選中文字自動搜索" v-model="replySearch" class="replySearch" @keyup.enter="searchReply">
                             <el-button slot="append" icon="el-icon-search" @click="searchReply"></el-button>
                         </el-input>
                         <div class="replyContent">
@@ -196,9 +196,9 @@
                                     <template slot="title">
                                         <i class="el-icon-folder"></i>&nbsp;<{reply.group_name}>
                                     </template>
-                                    <div class="replyItem" @click="messageContent=item.item_content"  v-for="item in reply.items" ><{item.item_content}> &nbsp;&nbsp;<el-button @click="deleteReplyContent(item.item_id)" type="text">删除</el-button></div>
-                                    <el-button @click="replyContentDialog=true;groupName=reply.group_name;groupId=reply.group_id" type="text">+添加回复内容</el-button>
-                                    <el-button @click="deleteReplyGroup(reply.group_id)" type="text">-删除组</el-button>
+                                    <div class="replyItem" @click="messageContent=item.item_content"  v-for="item in reply.items" ><{item.item_content}> &nbsp;&nbsp;<el-button @click="deleteReplyContent(item.item_id)" type="text">刪除</el-button></div>
+                                    <el-button @click="replyContentDialog=true;groupName=reply.group_name;groupId=reply.group_id" type="text">+添加回覆内容</el-button>
+                                    <el-button @click="deleteReplyGroup(reply.group_id)" type="text">-刪除組</el-button>
                                 </el-collapse-item>
                             </el-collapse>
                             <el-collapse v-show="replySearchList.length==0">
@@ -215,19 +215,19 @@
                                             </div>
                                             <div class="replyItemTitle" slot="reference"><i class="header-icon el-icon-document"></i> <{item.item_name}></div>
                                         </el-popover>
-                                        <el-button @click="editReplyContent('no',item.item_id,item.item_name,item.item_content)" type="text">编辑</el-button>
-                                        <el-button @click="deleteReplyContent(item.item_id)" type="text">删除</el-button></div>
-                                    <el-button @click="replyContentDialog=true;groupName=reply.group_name;groupId=reply.group_id" type="text">+添加回复内容</el-button>
+                                        <el-button @click="editReplyContent('no',item.item_id,item.item_name,item.item_content)" type="text">編輯</el-button>
+                                        <el-button @click="deleteReplyContent(item.item_id)" type="text">刪除</el-button></div>
+                                    <el-button @click="replyContentDialog=true;groupName=reply.group_name;groupId=reply.group_id" type="text">+添加回覆内容</el-button>
                                     <el-popover
                                             placement="top"
                                             width="100"
                                             v-model="visible">
-                                        <p>确定删除吗？</p>
+                                        <p>確定刪除吗？</p>
                                         <div style="text-align: right; margin: 0">
                                             <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                                            <el-button type="primary" size="mini" @click="visible = false;deleteReplyGroup(reply.group_id)">确定</el-button>
+                                            <el-button type="primary" size="mini" @click="visible = false;deleteReplyGroup(reply.group_id)">確定</el-button>
                                         </div>
-                                        <el-button slot="reference" type="text">-删除组</el-button>
+                                        <el-button slot="reference" type="text">-刪除組</el-button>
                                     </el-popover>
 
                                 </el-collapse-item>
@@ -236,20 +236,20 @@
                     </div>
                 </el-col>
             </el-row>
-        <!--图片放大-->
+        <!--圖片放大-->
         <div id="bigPic" class="bigPic">
             <img src="/static/images/3.jpg"/>
         </div>
-        <!--//图片放大-->
+        <!--//圖片放大-->
         <audio id="chatMessageAudio">
             <source id="chatMessageAudioSource" src="/static/images/alert2.ogg" type="audio/mpeg" />
         </audio>
         <audio id="chatMessageSendAudio">
             <source id="chatMessageSendAudioSource" src="/static/images/sent.ogg" type="audio/mpeg" />
         </audio>
-        <!--转接-->
+        <!--轉接-->
         <el-dialog
-                title="转移客服"
+                title="轉移客服"
                 :visible.sync="transKefuDialog"
                 width="30%"
                 top="0"
@@ -266,8 +266,8 @@
                         label="操作">
                     <template slot-scope="scope">
                         <el-tag v-show="scope.row.status=='offline'"
-                                disable-transitions>离线</el-tag>
-                        <el-button v-show="scope.row.status=='online'" type="primary" @click="transKefuVisitor(scope.row.name,visitor.visitor_id)">转移</el-button>
+                                disable-transitions>離線</el-tag>
+                        <el-button v-show="scope.row.status=='online'" type="primary" @click="transKefuVisitor(scope.row.name,visitor.visitor_id)">轉移</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -275,10 +275,10 @@
                 <el-button @click="transKefuDialog = false">取 消</el-button>
               </span>
         </el-dialog>
-        <!--//转接-->
-        <!--回复分组-->
+        <!--//轉接-->
+        <!--回覆分組-->
         <el-dialog
-                title="添加分组"
+                title="添加分組"
                 :visible.sync="replyGroupDialog"
                 width="30%"
                 top="0"
@@ -289,15 +289,15 @@
                 <el-button @click="replyGroupDialog = false">取 消</el-button>
               </span>
         </el-dialog>
-        <!--//回复分组-->
-        <!--回复内容-->
+        <!--//回覆分組-->
+        <!--回覆内容-->
         <el-dialog
-                title="添加回复内容"
+                title="添加回覆内容"
                 :visible.sync="replyContentDialog"
                 width="30%"
                 top="0"
         >
-            <el-input style="margin-bottom: 10px;" placeholder="关键词"  v-model="replyTitle"></el-input>
+            <el-input style="margin-bottom: 10px;" placeholder="關鍵字"  v-model="replyTitle"></el-input>
             <el-input placeholder="内容" type="textarea"  v-model="replyContent"></el-input>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="addReplyContent">保 存</el-button>
@@ -305,19 +305,19 @@
               </span>
         </el-dialog>
         <el-dialog
-                title="编辑回复内容"
+                title="編輯回覆内容"
                 :visible.sync="editReplyContentDialog"
                 width="30%"
                 top="0"
         >
-            <el-input style="margin-bottom: 10px;" placeholder="关键词"  v-model="replyTitle"></el-input>
+            <el-input style="margin-bottom: 10px;" placeholder="關鍵字"  v-model="replyTitle"></el-input>
             <el-input placeholder="内容" type="textarea"  v-model="replyContent"></el-input>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editReplyContent('yes')">保 存</el-button>
                 <el-button @click="editReplyContentDialog = false">取 消</el-button>
               </span>
         </el-dialog>
-        <!--//回复内容-->
+        <!--//回覆内容-->
     </template>
 </div>
 </body>

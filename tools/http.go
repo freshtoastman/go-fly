@@ -21,7 +21,7 @@ func Get(url string) string {
 	return string(robots)
 }
 
-//Post("http://xxxx","application/json;charset=utf-8",[]byte("{'aaa':'bbb'}"))
+// Post("http://xxxx","application/json;charset=utf-8",[]byte("{'aaa':'bbb'}"))
 func Post(url string, contentType string, body []byte) (string, error) {
 	res, err := http.Post(url, contentType, strings.NewReader(string(body)))
 	if err != nil {
@@ -60,7 +60,8 @@ func IsMobile(userAgent string) bool {
 	}
 	return false
 }
-//发送http post请求数据为form
+
+// 發送http post請求數據為form
 func PostForm(url string, data url.Values) (string, error) {
 	resp, err := http.PostForm(url, data)
 	if err != nil {

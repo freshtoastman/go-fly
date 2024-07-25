@@ -1,37 +1,37 @@
 <html>
 <head>
-    <title>视频聊天</title>
+    <title>視频聊天</title>
     <meta charset="utf-8">
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/peerjs/1.3.1/peerjs.min.js"></script>
 </head>
 <body>
-<h3>本地视频</h3>
+<h3>本地視频</h3>
 <video id="localVideo" style="width: 400px;height: 300px;"></video>
 <div style="text-align: left">
-    自己ID<input type="text" id="myPeerid"/>（自动获取）
-    对方ID<input type="text" id="youPeerid"/>（请手动输入）
+    自己ID<input type="text" id="myPeerid"/>（自動獲得）
+    對方ID<input type="text" id="youPeerid"/>（請手動輸入）
     <button id="callBtn">聊天</button>
 </div>
-<h3>远程视频</h3>
+<h3>遠程視频</h3>
 <video id="remoteVideo" style="width: 400px;height: 300px;"></video>
 
 
 
 <script type="text/javascript">
-    //访问用户媒体设备的兼容方法
+    //訪問用戶媒体设备的兼容方法
     function getUserMedia(constrains,success,error){
         if(navigator.mediaDevices.getUserMedia){
             //最新标准API
             navigator.mediaDevices.getUserMedia(constrains).then(success).catch(error);
         } else if (navigator.webkitGetUserMedia){
-            //webkit内核浏览器
+            //webkit内核浏覽器
             navigator.webkitGetUserMedia(constrains).then(success).catch(error);
         } else if (navigator.mozGetUserMedia){
-            //Firefox浏览器
+            //Firefox浏覽器
             navagator.mozGetUserMedia(constrains).then(success).catch(error);
         } else if (navigator.getUserMedia){
-            //旧版API
+            //舊版API
             navigator.getUserMedia(constrains).then(success).catch(error);
         }
     }
@@ -63,7 +63,7 @@
         $('#callBtn').click(function(){
             var remoteId=$("#youPeerid").val();
             if(remoteId==""){
-                alert("请输入对方ID");return;
+                alert("請輸入對方ID");return;
             }
 
             var call = peer.call(remoteId,localStream);

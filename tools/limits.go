@@ -38,7 +38,7 @@ func cleanLimitQueue() {
 			log.Println("cleanLimitQueue start...")
 			LimitQueue.LimitQueue = nil
 			now := time.Now()
-			// 计算下一个零点
+			// 計算下一个零点
 			next := now.Add(time.Hour * 24)
 			next = time.Date(next.Year(), next.Month(), next.Day(), 0, 0, 0, 0, next.Location())
 			t := time.NewTimer(next.Sub(now))
@@ -47,7 +47,7 @@ func cleanLimitQueue() {
 	}()
 }
 
-//单机时间滑动窗口限流法
+// 单機時间滑動窗口限流法
 func LimitFreqSingle(queueName string, count uint, timeWindow int64) bool {
 	currTime := time.Now().Unix()
 	if LimitQueue.LimitQueue == nil {
@@ -63,13 +63,13 @@ func LimitFreqSingle(queueName string, count uint, timeWindow int64) bool {
 		LimitQueue.writeMap(queueName, append(q, currTime))
 		return true
 	}
-	//队列满了,取出最早访问的时间
+	//队列满了,取出最早訪問的時间
 	earlyTime := q[0]
-	//说明最早期的时间还在时间窗口内,还没过期,所以不允许通过
+	//说明最早期的時间还在時间窗口内,还沒過期,所以不允許通過
 	if currTime-earlyTime <= timeWindow {
 		return false
 	} else {
-		//说明最早期的访问应该过期了,去掉最早期的
+		//说明最早期的訪問应该過期了,去掉最早期的
 		q = q[1:]
 		LimitQueue.writeMap(queueName, append(q, currTime))
 	}

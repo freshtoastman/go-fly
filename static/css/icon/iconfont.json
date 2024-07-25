@@ -14,7 +14,7 @@
     },
     {
       "icon_id": "8817897",
-      "name": "增加添加加号",
+      "name": "增加添加加號",
       "font_class": "zengjiatianjiajiahao",
       "unicode": "e62a",
       "unicode_decimal": 58922
@@ -49,7 +49,7 @@
     },
     {
       "icon_id": "5387527",
-      "name": "加号",
+      "name": "加號",
       "font_class": "jiahao",
       "unicode": "eaf3",
       "unicode_decimal": 60147
@@ -63,7 +63,7 @@
     },
     {
       "icon_id": "1418205",
-      "name": "发送",
+      "name": "發送",
       "font_class": "fasong",
       "unicode": "e604",
       "unicode_decimal": 58884

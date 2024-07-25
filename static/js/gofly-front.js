@@ -45,7 +45,7 @@ GOFLY.init=function(config){
     if (typeof config.GOFLY_WITHOUT_BTN!="undefined"){
         this.GOFLY_WITHOUT_BTN=config.GOFLY_WITHOUT_BTN;
     }
-    var refer=document.referrer?document.referrer:"无";
+    var refer=document.referrer?document.referrer:"無";
     this.GOFLY_EXTRA.refer=refer;
     this.GOFLY_EXTRA.host=document.location.href;
     this.GOFLY_EXTRA=JSON.stringify(_this.GOFLY_EXTRA);
@@ -114,7 +114,7 @@ GOFLY.addEventlisten=function(){
             clearInterval(_this.noticeTimer);
             var width=$(window).width();
             if(width>768){
-                _this.flashTitle();//标题闪烁
+                _this.flashTitle();//標題閃爍
             }
             if (_this.launchButtonFlag){
                 return;
@@ -217,9 +217,9 @@ GOFLY.getNotice=function(){
     });
 }
 GOFLY.isIE=function(){
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
-    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
-    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+    var userAgent = navigator.userAgent; //取得浏覽器的userAgent字符串
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏覽器
+    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏覽器
     var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
     if(isIE) {
         var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
@@ -241,7 +241,7 @@ GOFLY.isIE=function(){
     } else if(isIE11) {
         return 11; //IE11
     }else{
-        return -1;//不是ie浏览器
+        return -1;//不是ie浏覽器
     }
 }
 GOFLY.showPanel=function (){
@@ -285,12 +285,12 @@ GOFLY.layerOpen=function (width,height){
     layer.open({
         type: 2,
         title: this.chatPageTitle,
-        closeBtn: 1, //不显示关闭按钮
+        closeBtn: 1, //不显示關閉按钮
         shade: 0,
         area: [width, height],
         offset: 'rb', //右下角弹出
         anim: 2,
-        content: [this.GOFLY_URL+'/chatIndex?kefu_id='+this.GOFLY_KEFU_ID+'&lang='+this.GOFLY_LANG+'&refer='+window.document.title+'&extra='+this.GOFLY_EXTRA , 'yes'], //iframe的url，no代表不显示滚动条
+        content: [this.GOFLY_URL+'/chatIndex?kefu_id='+this.GOFLY_KEFU_ID+'&lang='+this.GOFLY_LANG+'&refer='+window.document.title+'&extra='+this.GOFLY_EXTRA , 'yes'], //iframe的url，no代表不显示滾動条
         success:function(){
             var layBox=$("#layui-layer19911116");
             if(_this.GOFLY_AUTO_SHOW&&layBox.css("display")=="none"){

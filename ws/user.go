@@ -2,12 +2,13 @@ package ws
 
 import (
 	"encoding/json"
+	"log"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/taoshihan1991/imaptool/models"
 	"github.com/taoshihan1991/imaptool/tools"
-	"log"
-	"time"
 )
 
 func NewKefuServer(c *gin.Context) {
@@ -16,7 +17,7 @@ func NewKefuServer(c *gin.Context) {
 	if kefuInfo.ID == 0 {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "用户不存在",
+			"msg":  "用戶不存在",
 		})
 		return
 	}
@@ -27,7 +28,7 @@ func NewKefuServer(c *gin.Context) {
 		log.Print("upgrade:", err)
 		return
 	}
-	//获取GET参数,创建WS
+	//獲得GET參數,創建WS
 	var kefu User
 	kefu.Id = kefuInfo.Name
 	kefu.Name = kefuInfo.Nickname
@@ -69,16 +70,16 @@ func AddKefuToList(kefu *User) {
 	KefuList[kefu.Id] = kefu
 }
 
-//给指定客服发消息
+// 给指定客服發消息
 func OneKefuMessage(toId string, str []byte) {
 	kefu, ok := KefuList[toId]
-	if ok{
-			log.Println("OneKefuMessage lock")
-			kefu.Mux.Lock()
-			defer kefu.Mux.Unlock()
-			log.Println("OneKefuMessage unlock")
-			error := kefu.Conn.WriteMessage(websocket.TextMessage, str)
-			tools.Logger().Println("send_kefu_message", error, string(str))
+	if ok {
+		log.Println("OneKefuMessage lock")
+		kefu.Mux.Lock()
+		defer kefu.Mux.Unlock()
+		log.Println("OneKefuMessage unlock")
+		error := kefu.Conn.WriteMessage(websocket.TextMessage, str)
+		tools.Logger().Println("send_kefu_message", error, string(str))
 	}
 }
 func KefuMessage(visitorId, content string, kefuInfo models.User) {
@@ -98,7 +99,7 @@ func KefuMessage(visitorId, content string, kefuInfo models.User) {
 	OneKefuMessage(kefuInfo.Name, str)
 }
 
-//给客服客户端发送消息判断客户端是否在线
+// 给客服客戶端發送消息判断客戶端是否在線
 func SendPingToKefuClient() {
 	msg := TypeMessage{
 		Type: "many pong",
@@ -112,7 +113,7 @@ func SendPingToKefuClient() {
 		defer kefu.Mux.Unlock()
 		err := kefu.Conn.WriteMessage(websocket.TextMessage, str)
 		if err != nil {
-			log.Println("定时发送ping给客服，失败",err.Error())
+			log.Println("定時發送ping给客服，失敗", err.Error())
 			delete(KefuList, kefuId)
 		}
 	}

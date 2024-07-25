@@ -1,4 +1,4 @@
-/*! layer-v3.5.1 Web 通用弹出层组件 MIT License */ ;
+/*! layer-v3.5.1 Web 通用弹出层組件 MIT License */ ;
 ! function(e, t) {
     "use strict";
     var i, n, a = e.layui && layui.define,

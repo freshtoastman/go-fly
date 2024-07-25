@@ -1,11 +1,12 @@
 package tmpl
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-//咨询界面
+// 諮詢界面
 func PageChat(c *gin.Context) {
 	kefuId := c.Query("kefu_id")
 	refer := c.Query("refer")
@@ -13,7 +14,7 @@ func PageChat(c *gin.Context) {
 		refer = c.Request.Referer()
 	}
 	if refer == "" {
-		refer = "直接访问"
+		refer = "直接訪問"
 	}
 	c.HTML(http.StatusOK, "chat_page.html", gin.H{
 		"KEFU_ID": kefuId,

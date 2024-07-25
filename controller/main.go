@@ -3,16 +3,17 @@ package controller
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/taoshihan1991/imaptool/common"
 	"github.com/taoshihan1991/imaptool/models"
 	"github.com/taoshihan1991/imaptool/tools"
 	"github.com/taoshihan1991/imaptool/ws"
-	"io/ioutil"
-	"log"
-	"os"
-	"strings"
 )
 
 func PostInstall(c *gin.Context) {
@@ -20,7 +21,7 @@ func PostInstall(c *gin.Context) {
 	if !notExist {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "系统已经安装过了",
+			"msg":  "系统已經安装過了",
 		})
 		return
 	}
@@ -36,7 +37,7 @@ func PostInstall(c *gin.Context) {
 		tools.Logger().Println(err)
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "数据库连接失败:" + err.Error(),
+			"msg":  "數據庫連接失敗:" + err.Error(),
 		})
 		return
 	}
@@ -78,7 +79,7 @@ func install() (bool, error) {
 	isExit, _ := tools.IsFileExist(common.MysqlConf)
 	dataExit, _ := tools.IsFileExist(sqlFile)
 	if !isExit || !dataExit {
-		return false, errors.New("config/mysql.json 数据库配置文件或者数据库文件go-fly.sql不存在")
+		return false, errors.New("config/mysql.json 數據庫配置文件或者數據庫文件go-fly.sql不存在")
 	}
 	sqls, _ := ioutil.ReadFile(sqlFile)
 	sqlArr := strings.Split(string(sqls), "|")
@@ -100,7 +101,7 @@ func MainCheckAuth(c *gin.Context) {
 	userinfo := models.FindUserRole("user.avator,user.name,user.id, role.name role_name", id)
 	c.JSON(200, gin.H{
 		"code": 200,
-		"msg":  "验证成功",
+		"msg":  "驗證成功",
 		"result": gin.H{
 			"avator":    userinfo.Avator,
 			"name":      userinfo.Name,
@@ -110,7 +111,7 @@ func MainCheckAuth(c *gin.Context) {
 }
 func GetStatistics(c *gin.Context) {
 	visitors := models.CountVisitors()
-	message := models.CountMessage(nil,nil)
+	message := models.CountMessage(nil, nil)
 	session := len(ws.ClientList)
 	kefuNum := 0
 	c.JSON(200, gin.H{

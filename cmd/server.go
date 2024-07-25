@@ -2,6 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"html/template"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
@@ -12,11 +18,6 @@ import (
 	"github.com/taoshihan1991/imaptool/tools"
 	"github.com/taoshihan1991/imaptool/ws"
 	"github.com/zh-five/xdaemon"
-	"html/template"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"os"
 )
 
 var (
@@ -25,7 +26,7 @@ var (
 )
 var serverCmd = &cobra.Command{
 	Use:     "server",
-	Short:   "启动http服务",
+	Short:   "启動http服務",
 	Example: "go-fly server -c config/",
 	Run: func(cmd *cobra.Command, args []string) {
 		run()
@@ -33,8 +34,8 @@ var serverCmd = &cobra.Command{
 }
 
 func init() {
-	serverCmd.PersistentFlags().StringVarP(&port, "port", "p", "8081", "监听端口号")
-	serverCmd.PersistentFlags().BoolVarP(&daemon, "daemon", "d", false, "是否为守护进程模式")
+	serverCmd.PersistentFlags().StringVarP(&port, "port", "p", "8081", "监听端口號")
+	serverCmd.PersistentFlags().BoolVarP(&daemon, "daemon", "d", false, "是否為守护進程模式")
 }
 func run() {
 	if daemon == true {
@@ -73,11 +74,11 @@ func run() {
 	//性能监控
 	pprof.Register(engine)
 
-	//记录日志
+	//紀錄日志
 	engine.Use(middleware.NewMidLogger())
 	router.InitViewRouter(engine)
 	router.InitApiRouter(engine)
-	//记录pid
+	//紀錄pid
 	ioutil.WriteFile("gofly.sock", []byte(fmt.Sprintf("%d,%d", os.Getppid(), os.Getpid())), 0666)
 	//限流类
 	tools.NewLimitQueue()

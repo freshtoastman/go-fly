@@ -2,7 +2,7 @@
     <div class="mainLeftMenu">
         <div style="margin: 20px auto;">
             <el-badge :type="onlineType" is-dot class="item">
-                <el-avatar   class="mainLogo"  title="智能客服" :size="45" src="/static/images/1.jpg"></el-avatar>
+                <el-avatar   class="mainLogo"  title="國中小客服" :size="45" src="/static/images/1.jpg"></el-avatar>
             </el-badge>
         </div>
         <div class="menuLeftItem" v-on:click="openIframeUrl('/pannel')">
@@ -14,26 +14,26 @@
             <el-badge :value="haveNewMessage" class="item">
                 <i class="el-icon-chat-dot-round"></i>
             </el-badge>
-            <span slot="title">对话</span>
+            <span slot="title">對話</span>
         </div>
 
 
         <div style="display: none" class="menuLeftItem" v-on:click="openIframeUrl('/setting_deploy')">
             <i class="el-icon-notebook-2"></i>
-            <span slot="title">对接</span>
+            <span slot="title">對接</span>
         </div>
 
 
         <div  class="menuLeftItem"  v-on:click="openIframeUrl('/setting')">
             <i class="el-icon-setting"></i>
-            <span slot="title">设置</span>
+            <span slot="title">設置</span>
         </div>
 
 
 
         <div  class="menuLeftItem menuLeftItemLogout" v-on:click="logout()">
             <i class="el-icon-switch-button"></i>
-            <span slot="title">退出</span>
+            <span slot="title">登出</span>
         </div>
 
     </div>

@@ -3,17 +3,18 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"os"
+	"path"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/taoshihan1991/imaptool/common"
 	"github.com/taoshihan1991/imaptool/models"
 	"github.com/taoshihan1991/imaptool/tools"
 	"github.com/taoshihan1991/imaptool/ws"
-	"os"
-	"path"
-	"strconv"
-	"strings"
-	"time"
 )
 
 func SendMessageV2(c *gin.Context) {
@@ -24,7 +25,7 @@ func SendMessageV2(c *gin.Context) {
 	if content == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "内容不能为空",
+			"msg":  "内容不能為空",
 		})
 		return
 	}
@@ -32,7 +33,7 @@ func SendMessageV2(c *gin.Context) {
 	if !tools.LimitFreqSingle("sendmessage:"+c.ClientIP(), 1, 2) {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  c.ClientIP() + "发送频率过快",
+			"msg":  c.ClientIP() + "發送频率過快",
 		})
 		return
 	}
@@ -49,7 +50,7 @@ func SendMessageV2(c *gin.Context) {
 	if kefuInfo.ID == 0 || vistorInfo.ID == 0 {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "用户不存在",
+			"msg":  "用戶不存在",
 		})
 		return
 	}
@@ -127,7 +128,7 @@ func SendVisitorNotice(c *gin.Context) {
 	if notice == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "msg不能为空",
+			"msg":  "msg不能為空",
 		})
 		return
 	}
@@ -149,7 +150,7 @@ func SendCloseMessageV2(c *gin.Context) {
 	if visitorId == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "visitor_id不能为空",
+			"msg":  "visitor_id不能為空",
 		})
 		return
 	}
@@ -176,7 +177,7 @@ func UploadImg(c *gin.Context) {
 	if err != nil {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "上传失败!",
+			"msg":  "上傳失敗!",
 		})
 		return
 	} else {
@@ -185,7 +186,7 @@ func UploadImg(c *gin.Context) {
 		if fileExt != ".png" && fileExt != ".jpg" && fileExt != ".gif" && fileExt != ".jpeg" {
 			c.JSON(200, gin.H{
 				"code": 400,
-				"msg":  "上传失败!只允许png,jpg,gif,jpeg文件",
+				"msg":  "上傳失敗!只允許png,jpg,gif,jpeg文件",
 			})
 			return
 		}
@@ -203,7 +204,7 @@ func UploadImg(c *gin.Context) {
 		c.SaveUploadedFile(f, filepath)
 		c.JSON(200, gin.H{
 			"code": 200,
-			"msg":  "上传成功!",
+			"msg":  "上傳成功!",
 			"result": gin.H{
 				"path": filepath,
 			},
@@ -215,7 +216,7 @@ func UploadFile(c *gin.Context) {
 	if err != nil {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "上传失败!",
+			"msg":  "上傳失敗!",
 		})
 		return
 	} else {
@@ -224,7 +225,7 @@ func UploadFile(c *gin.Context) {
 		if f.Size >= 90*1024*1024 {
 			c.JSON(200, gin.H{
 				"code": 400,
-				"msg":  "上传失败!不允许超过90M",
+				"msg":  "上傳失敗!不允許超過90M",
 			})
 			return
 		}
@@ -239,7 +240,7 @@ func UploadFile(c *gin.Context) {
 		c.SaveUploadedFile(f, filepath)
 		c.JSON(200, gin.H{
 			"code": 200,
-			"msg":  "上传成功!",
+			"msg":  "上傳成功!",
 			"result": gin.H{
 				"path": filepath,
 				"ext":  fileExt,

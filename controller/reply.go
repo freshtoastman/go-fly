@@ -1,9 +1,10 @@
 package controller
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/models"
-	"log"
 )
 
 type ReplyForm struct {
@@ -76,7 +77,7 @@ func PostReplyContentSave(c *gin.Context) {
 	if replyId == "" || replyTitle == "" || replyContent == "" {
 		c.JSON(400, gin.H{
 			"code": 200,
-			"msg":  "参数错误!",
+			"msg":  "參數錯誤!",
 		})
 		return
 	}
@@ -110,7 +111,7 @@ func PostReplySearch(c *gin.Context) {
 	if search == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "参数错误",
+			"msg":  "參數錯誤",
 		})
 		return
 	}

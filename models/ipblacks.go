@@ -45,7 +45,7 @@ func FindIps(query interface{}, args []interface{}, page uint, pagesize uint) []
 	return ipblacks
 }
 
-//查询条数
+// 查询条數
 func CountIps(query interface{}, args []interface{}) uint {
 	var count uint
 	if query != nil {

@@ -13,12 +13,12 @@ import (
 	"os"
 )
 
-// HTTPGet get 请求
+// HTTPGet get 請求
 func HTTPGet(uri string) ([]byte, error) {
 	return HTTPGetContext(context.Background(), uri)
 }
 
-// HTTPGetContext get 请求
+// HTTPGetContext get 請求
 func HTTPGetContext(ctx context.Context, uri string) ([]byte, error) {
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, uri, nil)
 	if err != nil {
@@ -36,12 +36,12 @@ func HTTPGetContext(ctx context.Context, uri string) ([]byte, error) {
 	return ioutil.ReadAll(response.Body)
 }
 
-// HTTPPost post 请求
+// HTTPPost post 請求
 func HTTPPost(uri string, data string) ([]byte, error) {
 	return HTTPPostContext(context.Background(), uri, data)
 }
 
-// HTTPPostContext post 请求
+// HTTPPostContext post 請求
 func HTTPPostContext(ctx context.Context, uri string, data string) ([]byte, error) {
 	body := bytes.NewBuffer([]byte(data))
 	request, err := http.NewRequestWithContext(ctx, http.MethodPost, uri, body)
@@ -60,7 +60,7 @@ func HTTPPostContext(ctx context.Context, uri string, data string) ([]byte, erro
 	return ioutil.ReadAll(response.Body)
 }
 
-// PostJSON post json 数据请求
+// PostJSON post json 數據請求
 func PostJSON(uri string, obj interface{}) ([]byte, error) {
 	jsonBuf := new(bytes.Buffer)
 	enc := json.NewEncoder(jsonBuf)
@@ -81,7 +81,7 @@ func PostJSON(uri string, obj interface{}) ([]byte, error) {
 	return ioutil.ReadAll(response.Body)
 }
 
-// PostJSONWithRespContentType post json数据请求，且返回数据类型
+// PostJSONWithRespContentType post json數據請求，且返回數據类型
 func PostJSONWithRespContentType(uri string, obj interface{}) ([]byte, string, error) {
 	jsonBuf := new(bytes.Buffer)
 	enc := json.NewEncoder(jsonBuf)
@@ -105,7 +105,7 @@ func PostJSONWithRespContentType(uri string, obj interface{}) ([]byte, string, e
 	return responseData, contentType, err
 }
 
-// PostFile 上传文件
+// PostFile 上傳文件
 func PostFile(fieldname, filename, uri string) ([]byte, error) {
 	fields := []MultipartFormField{
 		{
@@ -125,7 +125,7 @@ type MultipartFormField struct {
 	Filename  string
 }
 
-// PostMultipartForm 上传文件或其他多个字段
+// PostMultipartForm 上傳文件或其他多个字段
 func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte, err error) {
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)

@@ -2,12 +2,13 @@ package ws
 
 import (
 	"encoding/json"
+	"log"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/taoshihan1991/imaptool/common"
 	"github.com/taoshihan1991/imaptool/models"
-	"log"
-	"time"
 )
 
 func NewVisitorServer(c *gin.Context) {
@@ -17,12 +18,12 @@ func NewVisitorServer(c *gin.Context) {
 		log.Print("upgrade:", err)
 		return
 	}
-	//获取GET参数,创建WS
+	//獲得GET參數,創建WS
 	vistorInfo := models.FindVisitorByVistorId(c.Query("visitor_id"))
 	if vistorInfo.VisitorId == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "访客不存在",
+			"msg":  "訪客不存在",
 		})
 		return
 	}
@@ -46,7 +47,7 @@ func NewVisitorServer(c *gin.Context) {
 		if err != nil {
 			for _, visitor := range ClientList {
 				if visitor.Conn == conn {
-					log.Println("删除用户", visitor.Id)
+					log.Println("刪除用戶", visitor.Id)
 					delete(ClientList, visitor.Id)
 					VisitorOffline(visitor.To_id, visitor.Id, visitor.Name)
 				}
@@ -64,7 +65,7 @@ func NewVisitorServer(c *gin.Context) {
 	}
 }
 func AddVisitorToList(user *User) {
-	//用户id对应的连接
+	//用戶id對应的連接
 	oldUser, ok := ClientList[user.Id]
 	if oldUser != nil || ok {
 		msg := TypeMessage{
@@ -86,7 +87,7 @@ func AddVisitorToList(user *User) {
 	userInfo["avator"] = user.Avator
 	userInfo["last_message"] = lastMessage.Content
 	if userInfo["last_message"] == "" {
-		userInfo["last_message"] = "新访客"
+		userInfo["last_message"] = "新訪客"
 	}
 	msg := TypeMessage{
 		Type: "userOnline",
@@ -105,7 +106,7 @@ func VisitorOnline(kefuId string, visitor models.Visitor) {
 	userInfo["avator"] = visitor.Avator
 	userInfo["last_message"] = lastMessage.Content
 	if userInfo["last_message"] == "" {
-		userInfo["last_message"] = "新访客"
+		userInfo["last_message"] = "新訪客"
 	}
 	msg := TypeMessage{
 		Type: "userOnline",

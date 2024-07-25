@@ -11,7 +11,7 @@ func Ipblack(c *gin.Context) {
 	if ipblack.IP != "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "IP已被加入黑名单",
+			"msg":  "IP已被加入黑名單",
 		})
 		c.Abort()
 		return

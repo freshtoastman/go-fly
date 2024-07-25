@@ -48,10 +48,10 @@ func LeftBound2(nums []int, target int) int {
 			//收缩右侧边界
 			right = mid - 1
 		} else if nums[mid] < target {
-			//搜索区间变为 [mid+1, right]
+			//搜索区间变為 [mid+1, right]
 			left = mid + 1 //注意
 		} else if nums[mid] > target {
-			//搜索区间变为 [left, mid-1]
+			//搜索区间变為 [left, mid-1]
 			right = mid - 1
 		}
 	}
@@ -70,10 +70,10 @@ func RightBound(nums []int, target int) int {
 			//收缩左侧边界
 			left = mid + 1
 		} else if nums[mid] < target {
-			//搜索区间变为 [mid+1, right]
+			//搜索区间变為 [mid+1, right]
 			left = mid + 1 //注意
 		} else if nums[mid] > target {
-			//搜索区间变为 [left, mid-1]
+			//搜索区间变為 [left, mid-1]
 			right = mid - 1
 		}
 	}

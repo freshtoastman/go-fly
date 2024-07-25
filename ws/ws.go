@@ -3,15 +3,16 @@ package ws
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
-	"github.com/taoshihan1991/imaptool/models"
-	"github.com/taoshihan1991/imaptool/tools"
 	"log"
 	"net/http"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
+	"github.com/taoshihan1991/imaptool/models"
+	"github.com/taoshihan1991/imaptool/tools"
 )
 
 type User struct {
@@ -75,7 +76,7 @@ func SendServerJiang(title string, content string, domain string) string {
 		return ""
 	}
 	sendStr := fmt.Sprintf("%s%s", title, content)
-	desp := title + ":" + content + "[登录](http://" + domain + "/main)"
+	desp := title + ":" + content + "[登錄](http://" + domain + "/main)"
 	url := serverJiangAPI + "?text=" + sendStr + "&desp=" + desp
 	//log.Println(url)
 	res := tools.Get(url)
@@ -85,7 +86,7 @@ func SendFlyServerJiang(title string, content string, domain string) string {
 	return ""
 }
 
-//定时给更新数据库状态
+// 定時给更新數據庫狀態
 func UpdateVisitorStatusCron() {
 	for {
 		visitors := models.FindVisitorsOnline()
@@ -103,7 +104,7 @@ func UpdateVisitorStatusCron() {
 	}
 }
 
-//后端广播发送消息
+// 后端广播發送消息
 func WsServerBackend() {
 	for {
 		message := <-message
@@ -114,7 +115,7 @@ func WsServerBackend() {
 			continue
 		}
 		msgType := typeMsg.Type.(string)
-		log.Println("客户端:", string(message.content))
+		log.Println("客戶端:", string(message.content))
 
 		switch msgType {
 		//心跳

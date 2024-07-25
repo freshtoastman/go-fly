@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/models"
 	"github.com/taoshihan1991/imaptool/tools"
-	"time"
 )
 
 func GetChartStatistic(c *gin.Context) {
@@ -19,8 +20,8 @@ func GetChartStatistic(c *gin.Context) {
 	nowTime := time.Now()
 	list := make([]map[string]string, 0)
 	for i := 0; i > -46; i-- {
-		getTime := nowTime.AddDate(0, 0, i)   //年，月，日   获取一天前的时间
-		resTime := getTime.Format("06-01-02") //获取的时间的格式
+		getTime := nowTime.AddDate(0, 0, i)   //年，月，日   獲得一天前的時间
+		resTime := getTime.Format("06-01-02") //獲得的時间的格式
 		tmp := make(map[string]string)
 		tmp["day"] = resTime
 		tmp["num"] = dayNumMap[resTime]

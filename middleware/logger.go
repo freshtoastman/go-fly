@@ -1,36 +1,37 @@
 package middleware
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/tools"
-	"time"
 )
 
 func NewMidLogger() gin.HandlerFunc {
 	logger := tools.Logger()
 	return func(c *gin.Context) {
-		// 开始时间
+		// 开始時间
 		startTime := time.Now()
 
-		// 处理请求
+		// 處理請求
 		c.Next()
 
-		// 结束时间
+		// 结束時间
 		endTime := time.Now()
 
-		// 执行时间
+		// 执行時间
 		latencyTime := endTime.Sub(startTime)
 
-		// 请求方式
+		// 請求方式
 		reqMethod := c.Request.Method
 
-		// 请求路由
+		// 請求路由
 		reqUri := c.Request.RequestURI
 
-		// 状态码
+		// 狀態碼
 		statusCode := c.Writer.Status()
 
-		// 请求IP
+		// 請求IP
 		clientIP := c.ClientIP()
 
 		//日志格式

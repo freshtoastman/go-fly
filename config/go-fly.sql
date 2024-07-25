@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8|
 TRUNCATE TABLE `user`|
 INSERT INTO `user` (`id`, `name`, `password`, `nickname`, `created_at`, `updated_at`, `deleted_at`, `avator`) VALUE
-(1, 'kefu2', '202cb962ac59075b964b07152d234b70', '智能客服系统', '2020-06-27 19:32:41', '2020-07-04 09:32:20', NULL, '/static/images/4.jpg')|
+(1, 'teach_support', '202cb962ac59075b964b07152d234b70', '智能客服系统', '2020-06-27 19:32:41', '2020-07-04 09:32:20', NULL, '/static/images/4.jpg')|
 
 DROP TABLE IF EXISTS `visitor`|
 CREATE TABLE `visitor` (
@@ -87,9 +87,9 @@ CREATE TABLE `welcome` (
  KEY `keyword` (`keyword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8|
 INSERT INTO `welcome` (`id`, `user_id`, `content`, `is_default`, `ctime`, `keyword`) VALUES
-(NULL, 'kefu2', '我暂时离线，留言已转发到我的邮箱，稍后回复~', 1, '2020-08-24 02:57:49','offline')|
+(NULL, 'teach_support', '我已經下班了，留言已經轉發到我的信箱,稍後回覆~', 1, '2020-08-24 02:57:49','offline')|
 INSERT INTO `welcome` (`id`, `user_id`, `content`, `is_default`, `ctime`, `keyword`) VALUES
-(NULL, 'kefu2', '请问有什么可以帮您？', 0, '2020-08-24 02:57:49','welcome')|
+(NULL, 'teach_support', '請問有什麼能夠幫您？', 0, '2020-08-24 02:57:49','welcome')|
 
 DROP TABLE IF EXISTS `ipblack`|
 CREATE TABLE `ipblack` (
@@ -110,10 +110,9 @@ CREATE TABLE `config` (
  PRIMARY KEY (`id`),
  UNIQUE KEY `conf_key` (`conf_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8|
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '发送通知邮件(SMTP地址)', 'NoticeEmailSmtp', '')|
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '发送通知邮件(邮箱)', 'NoticeEmailAddress', '')|
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '发送通知邮件(密码)', 'NoticeEmailPassword', '')|
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '发送通知邮件(密码)', 'NoticeEmailPassword', '')|
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '發送通知email(SMTP地址)', 'NoticeEmailSmtp', '')|
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '發送通知email(邮箱)', 'NoticeEmailAddress', '')|
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '發送通知信箱(密碼)', 'NoticeEmailPassword', '')|
 DROP TABLE IF EXISTS `about`|
 CREATE TABLE `about` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -138,7 +137,7 @@ CREATE TABLE `reply_group` (
  PRIMARY KEY (`id`),
  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8|
-INSERT INTO `reply_group` (`id`, `group_name`, `user_id`) VALUES (NULL, '常见问题', 'kefu2')|
+INSERT INTO `reply_group` (`id`, `group_name`, `user_id`) VALUES (NULL, '常見問題', 'teach_support')|
 DROP TABLE IF EXISTS `reply_item`|
 CREATE TABLE `reply_item` (
  `id` int(11) NOT NULL AUTO_INCREMENT,

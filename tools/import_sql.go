@@ -2,13 +2,14 @@ package tools
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 )
 
 type ImportSqlTool struct {
@@ -19,15 +20,15 @@ type ImportSqlTool struct {
 func (this *ImportSqlTool) ImportSql() error {
 	_, err := os.Stat(this.SqlPath)
 	if os.IsNotExist(err) {
-		log.Println("数据库SQL文件不存在:", err)
+		log.Println("數據庫SQL文件不存在:", err)
 		return err
 	}
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", this.Username, this.Password, this.Server, this.Port, this.Database)
 	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
-		log.Println("数据库连接失败:", err)
-		//panic("数据库连接失败!")
+		log.Println("數據庫連接失敗:", err)
+		//panic("數據庫連接失敗!")
 		return err
 	}
 	db.SingularTable(true)
@@ -45,7 +46,7 @@ func (this *ImportSqlTool) ImportSql() error {
 		}
 		err := db.Exec(sql).Error
 		if err != nil {
-			log.Println("数据库导入失败:" + err.Error())
+			log.Println("數據庫导入失敗:" + err.Error())
 			return err
 		} else {
 			log.Println(sql, "\t success!")
@@ -53,4 +54,3 @@ func (this *ImportSqlTool) ImportSql() error {
 	}
 	return nil
 }
-

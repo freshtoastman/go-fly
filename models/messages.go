@@ -45,7 +45,7 @@ func FindMessageByVisitorId(visitor_id string) []Message {
 	return messages
 }
 
-//修改消息状态
+// 修改消息狀態
 func ReadMessageByVisitorId(visitor_id string) {
 	message := &Message{
 		Status: "read",
@@ -53,14 +53,14 @@ func ReadMessageByVisitorId(visitor_id string) {
 	DB.Model(&message).Where("visitor_id=?", visitor_id).Update(message)
 }
 
-//获取未读数
+// 獲得未读數
 func FindUnreadMessageNumByVisitorId(visitor_id string) uint {
 	var count uint
 	DB.Where("visitor_id=? and status=?", visitor_id, "unread").Count(&count)
 	return count
 }
 
-//查询最后一条消息
+// 查询最後一条消息
 func FindLastMessage(visitorIds []string) []Message {
 	var messages []Message
 	if len(visitorIds) <= 0 {
@@ -87,7 +87,7 @@ func FindLastMessage(visitorIds []string) []Message {
 	return messages
 }
 
-//查询最后一条消息
+// 查询最後一条消息
 func FindLastMessageByVisitorId(visitorId string) Message {
 	var m Message
 	DB.Select("content").Where("visitor_id=?", visitorId).Order("id desc").First(&m)
@@ -99,13 +99,14 @@ func FindMessageByWhere(query interface{}, args ...interface{}) []MessageKefu {
 	return messages
 }
 
-//查询条数
+// 查询条數
 func CountMessage(query interface{}, args ...interface{}) uint {
 	var count uint
 	DB.Model(&Message{}).Where(query, args...).Count(&count)
 	return count
 }
-//分页查询
+
+// 分頁查询
 func FindMessageByPage(page uint, pagesize uint, query interface{}, args ...interface{}) []*MessageKefu {
 	offset := (page - 1) * pagesize
 	if offset < 0 {

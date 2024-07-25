@@ -22,17 +22,17 @@ function getWsBaseUrl() {
 function replaceHtml(str){
     return str.replace(/<[^>]*>/g, '');
 }
-//浏览器桌面通知
+//浏覽器桌面通知
 function notify(title, options, callback) {
 
-    // 先检查浏览器是否支持
+    // 先检查浏覽器是否支持
     if (!window.Notification) {
-        console.log("浏览器不支持notify");
+        console.log("浏覽器不支持notify");
         return;
     }
     options.body=replaceHtml(options.body);
-    console.log("浏览器notify权限:", Notification.permission);
-    // 检查用户曾经是否同意接受通知
+    console.log("浏覽器notify權限:", Notification.permission);
+    // 检查用戶曾經是否同意接受通知
     if (Notification.permission === 'granted') {
         var notification = new Notification(title, options); // 显示通知
         if (notification && callback) {
@@ -45,7 +45,7 @@ function notify(title, options, callback) {
         }
     } else {
         Notification.requestPermission().then( (permission) =>function(){
-            console.log("请求浏览器notify权限:", permission);
+            console.log("請求浏覽器notify權限:", permission);
             if (permission === 'granted') {
                 notification = new Notification(title, options); // 显示通知
                 if (notification && callback) {
@@ -57,9 +57,9 @@ function notify(title, options, callback) {
                     }, 3000);
                 }
             } else if (permission === 'default') {
-                console.log('用户关闭授权 可以再次请求授权');
+                console.log('用戶關閉授權 可以再次請求授權');
             } else {
-                console.log('用户拒绝授权 不能显示通知');
+                console.log('用戶拒绝授權 不能显示通知');
             }
         });
     }
@@ -90,7 +90,7 @@ function clearFlashTitle() {
     clearInterval(titleTimer);
     document.title = originTitle;
 }
-var faceTitles = ["[微笑]", "[嘻嘻]", "[哈哈]", "[可爱]", "[可怜]", "[挖鼻]", "[吃惊]", "[害羞]", "[挤眼]", "[闭嘴]", "[鄙视]", "[爱你]", "[泪]", "[偷笑]", "[亲亲]", "[生病]", "[太开心]", "[白眼]", "[右哼哼]", "[左哼哼]", "[嘘]", "[衰]", "[委屈]", "[吐]", "[哈欠]", "[抱抱]", "[怒]", "[疑问]", "[馋嘴]", "[拜拜]", "[思考]", "[汗]", "[困]", "[睡]", "[钱]", "[失望]", "[酷]", "[色]", "[哼]", "[鼓掌]", "[晕]", "[悲伤]", "[抓狂]", "[黑线]", "[阴险]", "[怒骂]", "[互粉]", "[心]", "[伤心]", "[猪头]", "[熊猫]", "[兔子]", "[ok]", "[耶]", "[good]", "[NO]", "[赞]", "[来]", "[弱]", "[草泥马]", "[神马]", "[囧]", "[浮云]", "[给力]", "[围观]", "[威武]", "[奥特曼]", "[礼物]", "[钟]", "[话筒]", "[蜡烛]", "[蛋糕]"];
+var faceTitles = ["[微笑]", "[嘻嘻]", "[哈哈]", "[可爱]", "[可憐]", "[挖鼻]", "[吃驚]", "[害羞]", "[擠眼]", "[閉嘴]", "[鄙視]", "[愛你]", "[淚]", "[偷笑]", "[親親]", "[生病]", "[太開心]", "[白眼]", "[右哼哼]", "[左哼哼]", "[嘘]", "[衰]", "[委屈]", "[吐]", "[哈欠]", "[抱抱]", "[怒]", "[疑问]", "[馋嘴]", "[拜拜]", "[思考]", "[汗]", "[困]", "[睡]", "[錢]", "[失望]", "[酷]", "[色]", "[哼]", "[鼓掌]", "[暈]", "[悲傷]", "[抓狂]", "[黑線]", "[陰險]", "[怒骂]", "[互粉]", "[心]", "[傷心]", "[豬頭]", "[熊猫]", "[兔子]", "[ok]", "[耶]", "[good]", "[NO]", "[讚]", "[来]", "[弱]", "[草泥馬]", "[神馬]", "[囧]", "[浮雲]", "[给力]", "[圍觀]", "[威武]", "[超人]", "[禮物]", "[鐘]", "[電話]", "[蠟燭]", "[蛋糕]"];
 function placeFace() {
     var faces=[];
     for(var i=0;i<faceTitles.length;i++){
@@ -98,21 +98,21 @@ function placeFace() {
     }
     return faces;
 }
-function replaceContent (content,baseUrl) {// 转义聊天内容中的特殊字符
+function replaceContent (content,baseUrl) {// 轉义聊天内容中的特殊字符
     if(typeof baseUrl=="undefined"){
         baseUrl="";
     }
     var faces=placeFace();
     content = (content || '')
-        .replace(/face\[(.*?)\]/g, function (face) {  // 转义表情
+        .replace(/face\[(.*?)\]/g, function (face) {  // 轉义表情
             var alt = face.replace(/^face/g, '');
             return '<img alt="' + alt + '" title="' + alt + '" src="'+baseUrl + faces[alt] + '">';
         })
-        .replace(/img\[(.*?)\]/g, function (face) {  // 转义图片
+        .replace(/img\[(.*?)\]/g, function (face) {  // 轉义圖片
             var src = face.replace(/^img\[/g, '').replace(/\]/g, '');;
             return '<img onclick="bigPic(src,true)" src="' +baseUrl+ src + '" style="max-width: 150px"/></div>';
         })
-        .replace(/\n/g, '<br>'); // 转义换行
+        .replace(/\n/g, '<br>'); // 轉义换行
     content=replaceAttachment(content);
     return content;
 }
@@ -249,7 +249,7 @@ function utf8ToB64(str) {
 function b64ToUtf8(str) {
     return decodeURIComponent(escape(window.atob(str)));
 }
-//播放声音
+//播放聲音
 function alertSound(id,src){
     var b = document.getElementById(id);
     if(src!=""){

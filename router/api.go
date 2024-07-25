@@ -8,18 +8,18 @@ import (
 )
 
 func InitApiRouter(engine *gin.Engine) {
-	//路由分组
+	//路由分組
 	v2 := engine.Group("/2")
 	{
-		//获取消息
+		//獲得消息
 		v2.GET("/messages", controller.GetMessagesV2)
-		//发送单条信息
+		//發送单条信息
 		v2.POST("/message", middleware.Ipblack, controller.SendMessageV2)
-		//关闭连接
+		//關閉連接
 		v2.GET("/message_close", controller.SendCloseMessageV2)
 		//绑定
 		v2.POST("/bindOfficial", controller.PostBindOfficial)
-		//分页查询消息
+		//分頁查询消息
 		v2.GET("/messagesPages", controller.GetMessagespages)
 	}
 	engine.GET("/captcha", controller.GetCaptcha)
@@ -34,16 +34,16 @@ func InitApiRouter(engine *gin.Engine) {
 
 	engine.GET("/messages", controller.GetVisitorMessage)
 	engine.GET("/message_notice", controller.SendVisitorNotice)
-	//上传文件
+	//上傳文件
 	engine.POST("/uploadimg", middleware.Ipblack, controller.UploadImg)
-	//上传文件
+	//上傳文件
 	engine.POST("/uploadfile", middleware.Ipblack, controller.UploadFile)
-	//获取未读消息数
+	//獲得未读消息數
 	engine.GET("/message_status", controller.GetVisitorMessage)
-	//设置消息已读
+	//設置消息已读
 	engine.POST("/message_status", controller.GetVisitorMessage)
 
-	//获取客服信息
+	//獲得客服信息
 	engine.POST("/kefuinfo_client", middleware.JwtApiMiddleware, controller.PostKefuClient)
 	engine.GET("/kefuinfo", middleware.JwtApiMiddleware, middleware.RbacAuth, controller.GetKefuInfo)
 	engine.GET("/kefuinfo_setting", middleware.JwtApiMiddleware, middleware.RbacAuth, controller.GetKefuInfoSetting)
@@ -86,7 +86,7 @@ func InitApiRouter(engine *gin.Engine) {
 	engine.DELETE("/reply_content", middleware.JwtApiMiddleware, middleware.RbacAuth, controller.DelReplyContent)
 	engine.DELETE("/reply", middleware.JwtApiMiddleware, middleware.RbacAuth, controller.DelReplyGroup)
 	engine.POST("/reply_search", middleware.JwtApiMiddleware, controller.PostReplySearch)
-	//客服路由分组
+	//客服路由分組
 	kefuGroup := engine.Group("/kefu")
 	kefuGroup.Use(middleware.JwtApiMiddleware)
 	{

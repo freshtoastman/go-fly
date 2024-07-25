@@ -32,7 +32,7 @@ new Vue({
     methods: {
         //初始化websocket
         initConn:function() {
-            let socket = new ReconnectingWebSocket(this.server+"?visitor_id="+this.visitor.visitor_id);//创建Socket实例
+            let socket = new ReconnectingWebSocket(this.server+"?visitor_id="+this.visitor.visitor_id);//創建Socket实例
             this.socket = socket
             this.socket.onmessage = this.OnMessage;
             this.socket.onopen = this.OnOpen;
@@ -42,7 +42,7 @@ new Vue({
         },
         OnOpen:function() {
             console.log("ws:onopen");
-            //获取欢迎
+            //獲得歡迎
             this.getNotice();
             this.socketClosed=false;
             this.focusSendConn=false;
@@ -98,7 +98,7 @@ new Vue({
                     notification.close();
                 });
                 this.scrollBottom();
-                flashTitle();//标题闪烁
+                flashTitle();//標題閃爍
                 clearInterval(this.timer);
                 this.alertSound();//提示音
             }
@@ -126,7 +126,7 @@ new Vue({
             }
             window.parent.postMessage(redata,"*");
         },
-        //发送给客户
+        //發送给客戶
         chatToUser:function() {
             var messageContent=this.messageContent.trim("\r\n");
             messageContent=messageContent.replace("\n","");
@@ -138,7 +138,7 @@ new Vue({
             this.messageContent=messageContent;
             if(this.socketClosed){
                 this.$message({
-                    message: '连接关闭!请重新打开页面',
+                    message: '連接關閉!請重新打开頁面',
                     type: 'warning'
                 });
                 return;
@@ -162,7 +162,7 @@ new Vue({
             mes.from_id = this.visitor.visitor_id;
             mes.to_id = this.visitor.to_id;
             mes.content = this.messageContent;
-            //发送消息
+            //發送消息
             $.post("/2/message",mes,function(res){
                 _this.sendDisabled=false;
                 if(res.code!=200){
@@ -183,11 +183,11 @@ new Vue({
             console.log("ws:onclose");
             this.focusSendConn=true;
             //this.socketClosed=true;
-            // this.chatTitle="连接关闭!请重新打开页面";
+            // this.chatTitle="連接關閉!請重新打开頁面";
             // $(".chatBox").append("<div class=\"chatTime\">"+this.chatTitle+"</div>");
             // this.scrollBottom();
         },
-        //获取当前用户信息
+        //獲得當前用戶信息
         getUserInfo:function(){
             let obj=this.getCache("visitor");
             var visitor_id=""
@@ -198,7 +198,7 @@ new Vue({
             }
                 let _this=this;
                 var extra=getQuery("extra");
-                //发送消息
+                //發送消息
                 $.post("/visitor_login",{visitor_id:visitor_id,refer:REFER,to_id:to_id,extra:extra},function(res){
                     if(res.code!=200){
                         _this.$message({
@@ -219,7 +219,7 @@ new Vue({
             //     this.initConn();
             // }
         },
-        //获取信息列表
+        //獲得信息列表
         getHistoryMessage:function(){
             let params={
                 page:this.messages.page,
@@ -255,20 +255,20 @@ new Vue({
                 _this.messages.page++;
             });
         },
-        //滚动到底部
+        //滾動到底部
         scrollBottom:function(){
             var _this=this;
             this.$nextTick(function(){
                 $('.chatVisitorPage').scrollTop($(".chatVisitorPage")[0].scrollHeight);
             });
         },
-        //获取日期
-        getNowDate : function() {// 获取日期
+        //獲得日期
+        getNowDate : function() {// 獲得日期
             var d = new Date(new Date());
             return d.getFullYear() + '-' + this.digit(d.getMonth() + 1) + '-' + this.digit(d.getDate())
                 + ' ' + this.digit(d.getHours()) + ':' + this.digit(d.getMinutes()) + ':' + this.digit(d.getSeconds());
         },
-        //补齐数位
+        //補齊數位
         digit : function (num) {
             return num < 10 ? '0' + (num | 0) : num;
         },
@@ -281,14 +281,14 @@ new Vue({
                 return JSON.parse(localStorage.getItem(key));
             }
         },
-        //获取自动欢迎语句
+        //獲得自動歡迎语句
         getNotice : function (){
             let _this=this;
             $.get("/notice?kefu_id="+KEFU_ID,function(res) {
                 var code=res.code;
                 if(code!=200) return;
                 _this.kefuInfo=res.result;
-                _this.showTitle(_this.kefuInfo.nickname+" 为您服务");
+                _this.showTitle(_this.kefuInfo.nickname+" 為您服務");
                 if(!_this.kefuInfo.welcome) return;
                 var msg={
                     content:replaceContent(_this.kefuInfo.welcome),
@@ -318,10 +318,10 @@ new Vue({
 
                 var windheight = $(window).height();
                 $(window).resize(function(){
-                    var docheight = $(window).height();  /*唤起键盘时当前窗口高度*/
+                    var docheight = $(window).height();  /*唤起键盘時當前窗口高度*/
                     //_this.scrollBottom();
                     $('body').scrollTop(99999999);
-                    // if(docheight < windheight){            /*当唤起键盘高度小于未唤起键盘高度时执行*/
+                    // if(docheight < windheight){            /*当唤起键盘高度小于未唤起键盘高度時执行*/
                     //     $(".chatBoxSend").css("position","static");
                     // }else{
                     //     $(".chatBoxSend").css("position","fixed");
@@ -365,12 +365,12 @@ new Vue({
             }
 
         },
-        //表情点击事件
+        //表情點擊事件
         faceIconClick:function(index){
             $('.faceBox').hide();
             this.messageContent+="face"+this.face[index].name;
         },
-        //上传图片
+        //上傳圖片
         uploadImg:function (url){
             let _this=this;
             $('#uploadImg').after('<input type="file" accept="image/gif,image/jpeg,image/jpg,image/png" id="uploadImgFile" name="file" style="display:none" >');
@@ -378,7 +378,7 @@ new Vue({
             $("#uploadImgFile").change(function (e) {
                 var formData = new FormData();
                 var file = $("#uploadImgFile")[0].files[0];
-                formData.append("imgfile",file); //传给后台的file的key值是可以自己定义的
+                formData.append("imgfile",file); //傳给後台的file的key值是可以自己定义的
                 filter(file) && $.ajax({
                     url: url || '',
                     type: "post",
@@ -404,7 +404,7 @@ new Vue({
                 });
             });
         },
-        //上传文件
+        //上傳文件
         uploadFile:function (url){
             let _this=this;
             $('#uploadFile').after('<input type="file"  id="uploadRealFile" name="file2" style="display:none" >');
@@ -412,7 +412,7 @@ new Vue({
             $("#uploadRealFile").change(function (e) {
                 var formData = new FormData();
                 var file = $("#uploadRealFile")[0].files[0];
-                formData.append("realfile",file); //传给后台的file的key值是可以自己定义的
+                formData.append("realfile",file); //傳给後台的file的key值是可以自己定义的
                 console.log(formData);
                 $.ajax({
                     url: url || '',
@@ -446,7 +446,7 @@ new Vue({
                 });
             });
         },
-        //粘贴上传图片
+        //粘贴上傳圖片
         onPasteUpload:function(event){
             let items = event.clipboardData && event.clipboardData.items;
             let file = null
@@ -537,9 +537,9 @@ new Vue({
     created: function () {
         this.init();
         this.getUserInfo();
-        //加载历史记录
+        //加载歷史紀錄
         //this.msgList=this.getHistory();
-        //滚动底部
+        //滾動底部
         //this.scrollBottom();
 
     }

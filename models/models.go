@@ -2,10 +2,11 @@ package models
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/taoshihan1991/imaptool/common"
 	"log"
 	"time"
+
+	"github.com/jinzhu/gorm"
+	"github.com/taoshihan1991/imaptool/common"
 )
 
 var DB *gorm.DB
@@ -27,7 +28,7 @@ func Connect() error {
 	DB, err = gorm.Open("mysql", dsn)
 	if err != nil {
 		log.Println(err)
-		panic("数据库连接失败!")
+		panic("數據庫連接失敗!")
 		return err
 	}
 	DB.SingularTable(true)

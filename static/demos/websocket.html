@@ -8,31 +8,31 @@
 
 </body>
 <script>
-    // 设置重连时间间隔（单位：毫秒）
+    // 設置重連時间间隔（单位：毫秒）
     const RECONNECT_INTERVAL = 1000;
 
-    // 设置最大重连次数
+    // 設置最大重連次數
     const MAX_RECONNECT_TIMES = 3;
 
     let reconnectTimes = 0;
     let ws;
 
-    // 尝试连接 WebSocket
+    // 尝试連接 WebSocket
     function connect() {
-        ws = new WebSocket('wss://gofly.v1kf.com/ws_visitor?visitor_id=5|a780d122-daa3-4315-a413-f93b29b026d0&to_id=taoshihan');
+        ws = new WebSocket('wss://127.0.0.1/ws_visitor?visitor_id=5|a780d122-daa3-4315-a413-f93b29b026d0&to_id=taoshihan');
 
         ws.onopen = function () {
-            console.log('WebSocket 连接已打开');
+            console.log('WebSocket 連接已打开');
             reconnectTimes = 0;
         };
 
         ws.onclose = function () {
-            console.log('WebSocket 连接已关闭');
-            // 尝试重连
+            console.log('WebSocket 連接已關閉');
+            // 尝试重連
             reconnect();
         };
         ws.onmessage = function (event) {
-            console.log(`收到服务器的消息：${event.data}`);
+            console.log(`收到服務器的消息：${event.data}`);
 
             // // 解析消息
             // const message = JSON.parse(event.data);
@@ -42,15 +42,15 @@
         };
     }
 
-    // 尝试重连
+    // 尝试重連
     function reconnect() {
         if (reconnectTimes >= MAX_RECONNECT_TIMES) {
-            console.log('重连失败');
+            console.log('重連失敗');
             return;
         }
 
         reconnectTimes++;
-        console.log(`正在尝试重连（第 ${reconnectTimes} 次）`);
+        console.log(`正在尝试重連（第 ${reconnectTimes} 次）`);
 
         setTimeout(function () {
             connect();

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 中间件，处理session
+// 中间件，處理session
 func Session(keyPairs string) gin.HandlerFunc {
 	store := SessionConfig()
 	return sessions.Sessions(keyPairs, store)

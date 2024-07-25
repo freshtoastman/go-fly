@@ -16,11 +16,11 @@ var app=new Vue({
         messageContent:"",
         currentGuest:"",
         msgList:[],
-        chatTitle:"暂时未处理咨询",
+        chatTitle:"暫時未處理諮詢",
         chatInputing:"",
         kfConfig:{
             id : "kf_1",
-            name : "客服丽丽",
+            name : "客服TOM",
             avator : "",
             to_id : "",
         },
@@ -64,7 +64,7 @@ var app=new Vue({
         },
     },
     methods: {
-        //跳转
+        //跳轉
         openUrl(url) {
             window.location.href = url;
         },
@@ -91,7 +91,7 @@ var app=new Vue({
         },
         //初始化websocket
         initConn() {
-            let socket = new ReconnectingWebSocket(this.server);//创建Socket实例
+            let socket = new ReconnectingWebSocket(this.server);//創建Socket实例
             this.socket = socket
             this.socket.onmessage = this.OnMessage;
             this.socket.onopen = this.OnOpen;
@@ -104,8 +104,8 @@ var app=new Vue({
             switch (redata.type){
                 case "close":
                     this.socket.close();
-                    this.$alert('客服在其他地方登录，当前登录状态退出', '通知', {
-                        confirmButtonText: '确定',
+                    this.$alert('客服在其他地方登錄，當前登錄狀態退出', '通知', {
+                        confirmButtonText: '確定',
                         callback:function () {
                             localStorage.removeItem("token");
                             window.location.href="/login";
@@ -131,7 +131,7 @@ var app=new Vue({
                     //this.sendKefuOnline();
                     break;
                 case "notice":
-                    //发送通知
+                    //發送通知
                     var _this=this;
                     window.parent.postMessage({
                         name:redata.data.username,
@@ -178,19 +178,19 @@ var app=new Vue({
                 _this.chatInputing="";
             }
         },
-        //接手客户
+        //接手客戶
         talkTo(guestId,name) {
             this.currentGuest = guestId;
-            //发送给客户
+            //發送给客戶
             let mes = {}
             mes.type = "kfConnect";
             this.kfConfig.to_id=guestId;
             mes.data = this.kfConfig;
             this.socket.send(JSON.stringify(mes));
 
-            //获取当前访客信息
+            //獲得當前訪客信息
             this.getVistorInfo(guestId);
-            //获取当前客户消息
+            //獲得當前客戶消息
             this.messages.page=1;
             this.msgList=[];
             this.getHistoryMessage();
@@ -201,7 +201,7 @@ var app=new Vue({
                 }
             }
         },
-        //发送给客户
+        //發送给客戶
         chatToUser() {
             this.messageContent=this.messageContent.trim("\r\n");
             this.messageContent=this.messageContent.replace("\n","");
@@ -243,7 +243,7 @@ var app=new Vue({
             _this.sendDisabled=false;
             this.scrollBottom();
         },
-        //处理当前在线用户列表
+        //處理當前在線用戶列表
         addOnlineUser:function (retData) {
             var flag=false;
             retData.last_message=retData.last_message;
@@ -269,7 +269,7 @@ var app=new Vue({
             }
 
         },
-        //处理当前在线用户列表
+        //處理當前在線用戶列表
         removeOfflineUser:function (retData) {
             for(let i=0;i<this.users.length;i++){
                 if(this.users[i].uid==retData.uid){
@@ -284,15 +284,15 @@ var app=new Vue({
                 }
             }
         },
-        //处理当前在线用户列表
+        //處理當前在線用戶列表
         handleOnlineUsers:function (retData) {
             if (this.currentGuest == "") {
-                this.chatTitle = "连接成功,等待处理中...";
+                this.chatTitle = "連接成功,等待處理中...";
             }
             this.usersMap=[];
             for(let i=0;i<retData.length;i++){
                 this.usersMap[retData[i].uid]=retData[i].username;
-                retData[i].last_message="新访客";
+                retData[i].last_message="新訪客";
             }
             if(this.users.length==0){
                 this.users = retData;
@@ -307,10 +307,10 @@ var app=new Vue({
             }
 
         },
-        //处理正在输入
+        //處理正在輸入
         handleInputing:function (retData) {
             if(retData.from==this.visitor.visitor_id){
-                this.chatInputing="|正在输入："+retData.content+"...";
+                this.chatInputing="|正在輸入："+retData.content+"...";
                 if(retData.content==""){
                     this.chatInputing="";
                 }
@@ -321,7 +321,7 @@ var app=new Vue({
                 }
             }
         },
-        //获取客服信息
+        //獲得客服信息
         getKefuInfo(){
             let _this=this;
             $.ajax({
@@ -346,7 +346,7 @@ var app=new Vue({
                 }
             });
         },
-        //获取客服信息
+        //獲得客服信息
         getOnlineVisitors(){
             let _this=this;
             $.ajax({
@@ -410,7 +410,7 @@ var app=new Vue({
                 _this.messages.page++;
             });
         },
-        //获取信息列表
+        //獲得信息列表
         getMesssagesByVisitorId(visitorId,isAll){
             let _this=this;
             $.ajax({
@@ -458,7 +458,7 @@ var app=new Vue({
                 }
             });
         },
-        //获取客服信息
+        //獲得客服信息
         getVistorInfo(vid){
             let _this=this;
             $.ajax({
@@ -478,7 +478,7 @@ var app=new Vue({
                         // _this.visitor.city=r.city;
                         // _this.visitor.client_ip=r.client_ip;
                         // _this.visitor.source_ip=r.source_ip;
-                        _this.visitor.status=r.status==1?"在线":"离线";
+                        _this.visitor.status=r.status==1?"在線":"離線";
 
                         //_this.visitor.visitor_id=r.visitor_id;
                         _this.chatTitle="#"+r.id+"|"+r.name;
@@ -491,7 +491,7 @@ var app=new Vue({
                             }
                             for(var key in extra){
                                 if(extra[key]==""){
-                                    extra[key]="无";
+                                    extra[key]="無";
                                 }
                                 if(key=="visitorAvatar"||key=="visitorName") continue;
                                 var temp={key:key,val:extra[key]}
@@ -509,7 +509,7 @@ var app=new Vue({
                 }
             });
         },
-        //关闭访客
+        //關閉訪客
         closeVisitor(visitorId){
             let _this=this;
             $.ajax({
@@ -529,7 +529,7 @@ var app=new Vue({
                 }
             });
         },
-        //处理tab切换
+        //處理tab切换
         handleTabClick(tab, event){
             let _this=this;
             if(tab.name=="first"){
@@ -541,11 +541,11 @@ var app=new Vue({
             if(tab.name=="blackList"){
             }
         },
-        //所有访客分页展示
+        //所有訪客分頁展示
         visitorPage(page){
             this.getVisitorPage(page);
         },
-        //获取访客分页
+        //獲得訪客分頁
         getVisitorPage(page){
             let _this=this;
             $.ajax({
@@ -594,12 +594,12 @@ var app=new Vue({
             });
 
         },
-        //表情点击事件
+        //表情點擊事件
         faceIconClick(index){
             this.showFaceIcon=false;
             this.messageContent+="face"+this.face[index].name;
         },
-        //上传图片
+        //上傳圖片
         uploadImg (url){
             let _this=this;
             $('#uploadImg').after('<input type="file" accept="image/gif,image/jpeg,image/jpg,image/png" id="uploadImgFile" name="file" style="display:none" >');
@@ -607,7 +607,7 @@ var app=new Vue({
             $("#uploadImgFile").change(function (e) {
                 var formData = new FormData();
                 var file = $("#uploadImgFile")[0].files[0];
-                formData.append("imgfile",file); //传给后台的file的key值是可以自己定义的
+                formData.append("imgfile",file); //傳给後台的file的key值是可以自己定义的
                 filter(file) && $.ajax({
                     url: url || '',
                     type: "post",
@@ -633,7 +633,7 @@ var app=new Vue({
                 });
             });
         },
-        //上传文件
+        //上傳文件
         uploadFile:function (url){
             let _this=this;
             $('#uploadFile').after('<input type="file"  id="uploadRealFile" name="file2" style="display:none" >');
@@ -641,7 +641,7 @@ var app=new Vue({
             $("#uploadRealFile").change(function (e) {
                 var formData = new FormData();
                 var file = $("#uploadRealFile")[0].files[0];
-                formData.append("realfile",file); //传给后台的file的key值是可以自己定义的
+                formData.append("realfile",file); //傳给後台的file的key值是可以自己定义的
                 console.log(formData);
                 $.ajax({
                     url: url || '',
@@ -699,7 +699,7 @@ var app=new Vue({
                 }
             });
         },
-        //粘贴上传图片
+        //粘贴上傳圖片
         onPasteUpload(event){
             let items = event.clipboardData && event.clipboardData.items;
             let file = null
@@ -755,7 +755,7 @@ var app=new Vue({
             var p = b.play();
             p && p.then(function(){}).catch(function(e){});
         },
-        //转移客服
+        //轉移客服
         transKefu(){
             this.transKefuDialog=true;
             var _this=this;
@@ -763,7 +763,7 @@ var app=new Vue({
                 _this.otherKefus=result;
             });
         },
-        //转移访客客服
+        //轉移訪客客服
         transKefuVisitor(kefu,visitorId){
             var _this=this;
             this.sendAjax("/trans_kefu","get",{kefu_id:kefu,visitor_id:visitorId},function(result){
@@ -771,7 +771,7 @@ var app=new Vue({
                 _this.transKefuDialog = false
             });
         },
-        //保存回复分组
+        //保存回覆分組
         addReplyGroup(){
             var _this=this;
             this.sendAjax("/reply","post",{group_name:_this.groupName},function(result){
@@ -781,7 +781,7 @@ var app=new Vue({
                 _this.getReplys();
             });
         },
-        //添加回复内容
+        //添加回覆内容
         addReplyContent(){
             var _this=this;
             this.sendAjax("/reply_content","post",{group_id:_this.groupId,item_name:_this.replyTitle,content:_this.replyContent},function(result){
@@ -791,28 +791,28 @@ var app=new Vue({
                 _this.getReplys();
             });
         },
-        //获取快捷回复
+        //獲得快捷回覆
         getReplys(){
             var _this=this;
             this.sendAjax("/replys","get",{},function(result){
                 _this.replys=result;
             });
         },
-        //删除回复
+        //刪除回覆
         deleteReplyGroup(id){
             var _this=this;
             this.sendAjax("/reply?id="+id,"delete",{},function(result){
                 _this.getReplys();
             });
         },
-        //删除回复
+        //刪除回覆
         deleteReplyContent(id){
             var _this=this;
             this.sendAjax("/reply_content?id="+id,"delete",{},function(result){
                 _this.getReplys();
             });
         },
-        //编辑回复
+        //編輯回覆
         editReplyContent(save,id,title,content){
             var _this=this;
             if(save=='yes'){
@@ -833,7 +833,7 @@ var app=new Vue({
             }
 
         },
-        //搜索回复
+        //搜索回覆
         searchReply(){
             var _this=this;
             _this.replySearchListActive=[];
@@ -847,14 +847,14 @@ var app=new Vue({
                 }
             });
         },
-        //获取黑名单
+        //獲得黑名單
         getIpblacks(){
             var _this=this;
             this.sendAjax("/ipblacks","get",{},function(result){
                 _this.ipBlacks=result;
             });
         },
-        //删除黑名单
+        //刪除黑名單
         delIpblack(ip){
             let _this=this;
             this.sendAjax("/ipblack?ip="+ip,"DELETE",{ip:ip},function(result){

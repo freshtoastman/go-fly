@@ -15,7 +15,7 @@ func PostKefuAvator(c *gin.Context) {
 	if avator == "" {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "不能为空",
+			"msg":    "不能為空",
 			"result": "",
 		})
 		return
@@ -36,7 +36,7 @@ func PostKefuPass(c *gin.Context) {
 	if newPass != confirmNewPass {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "密码不一致",
+			"msg":    "密碼不一致",
 			"result": "",
 		})
 		return
@@ -45,7 +45,7 @@ func PostKefuPass(c *gin.Context) {
 	if user.Password != tools.Md5(old_pass) {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "旧密码不正确",
+			"msg":    "舊密碼不正確",
 			"result": "",
 		})
 		return
@@ -64,7 +64,7 @@ func PostKefuClient(c *gin.Context) {
 	if clientId == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "client_id不能为空",
+			"msg":  "client_id不能為空",
 		})
 		return
 	}
@@ -96,7 +96,7 @@ func GetKefuInfoAll(c *gin.Context) {
 	userinfo := models.FindUserRole("user.avator,user.name,user.id, role.name role_name", id)
 	c.JSON(200, gin.H{
 		"code":   200,
-		"msg":    "验证成功",
+		"msg":    "驗證成功",
 		"result": userinfo,
 	})
 }
@@ -137,7 +137,7 @@ func PostTransKefu(c *gin.Context) {
 	if user.Name == "" || visitor.Name == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "访客或客服不存在",
+			"msg":  "訪客或客服不存在",
 		})
 		return
 	}
@@ -145,10 +145,10 @@ func PostTransKefu(c *gin.Context) {
 	ws.UpdateVisitorUser(visitorId, kefuId)
 	go ws.VisitorOnline(kefuId, visitor)
 	go ws.VisitorOffline(curKefuId.(string), visitor.VisitorId, visitor.Name)
-	go ws.VisitorNotice(visitor.VisitorId, "客服转接到"+user.Nickname)
+	go ws.VisitorNotice(visitor.VisitorId, "客服轉接到"+user.Nickname)
 	c.JSON(200, gin.H{
 		"code": 200,
-		"msg":  "转移成功",
+		"msg":  "轉移成功",
 	})
 }
 func GetKefuInfoSetting(c *gin.Context) {
@@ -171,7 +171,7 @@ func PostKefuRegister(c *gin.Context) {
 	if name == "" || password == "" || rePassword == "" || nickname == "" || captchaCode == "" {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "参数不能为空",
+			"msg":    "參數不能為空",
 			"result": "",
 		})
 		return
@@ -179,7 +179,7 @@ func PostKefuRegister(c *gin.Context) {
 	if password != rePassword {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "密码不一致",
+			"msg":    "密碼不一致",
 			"result": "",
 		})
 		return
@@ -188,7 +188,7 @@ func PostKefuRegister(c *gin.Context) {
 	if oldUser.Name != "" {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "用户名已经存在",
+			"msg":    "帳號已經存在",
 			"result": "",
 		})
 		return
@@ -200,7 +200,7 @@ func PostKefuRegister(c *gin.Context) {
 		if !captcha.VerifyString(captchaId.(string), captchaCode) {
 			c.JSON(200, gin.H{
 				"code":   400,
-				"msg":    "验证码验证失败",
+				"msg":    "驗證碼驗證失敗",
 				"result": "",
 			})
 			return
@@ -208,17 +208,17 @@ func PostKefuRegister(c *gin.Context) {
 	} else {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "验证码失效",
+			"msg":    "驗證碼失效",
 			"result": "",
 		})
 		return
 	}
-	//插入新用户
+	//插入新用戶
 	uid := models.CreateUser(name, tools.Md5(password), avator, nickname)
 	if uid == 0 {
 		c.JSON(200, gin.H{
 			"code":   400,
-			"msg":    "增加用户失败",
+			"msg":    "增加用戶失敗",
 			"result": "",
 		})
 		return
@@ -227,7 +227,7 @@ func PostKefuRegister(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"code":   200,
-		"msg":    "注册完成",
+		"msg":    "註冊完成",
 		"result": "",
 	})
 }
@@ -240,23 +240,23 @@ func PostKefuInfo(c *gin.Context) {
 	if name == "" {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "客服账号不能为空",
+			"msg":  "客服帳號不能為空",
 		})
 		return
 	}
-	//插入新用户
+	//插入新用戶
 	if id == "" {
 		uid := models.CreateUser(name, tools.Md5(password), avator, nickname)
 		if uid == 0 {
 			c.JSON(200, gin.H{
 				"code":   400,
-				"msg":    "增加用户失败",
+				"msg":    "增加用戶失敗",
 				"result": "",
 			})
 			return
 		}
 	} else {
-		//更新用户
+		//更新用戶
 		if password != "" {
 			password = tools.Md5(password)
 		}
@@ -280,7 +280,7 @@ func GetKefuList(c *gin.Context) {
 	users := models.FindUsers()
 	c.JSON(200, gin.H{
 		"code":   200,
-		"msg":    "获取成功",
+		"msg":    "獲得成功",
 		"result": users,
 	})
 }
@@ -290,7 +290,7 @@ func DeleteKefuInfo(c *gin.Context) {
 	models.DeleteRoleByUserId(kefuId)
 	c.JSON(200, gin.H{
 		"code":   200,
-		"msg":    "删除成功",
+		"msg":    "刪除成功",
 		"result": "",
 	})
 }

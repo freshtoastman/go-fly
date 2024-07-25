@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/models"
-	"strings"
 )
 
 func RbacAuth(c *gin.Context) {
@@ -24,7 +25,7 @@ func RbacAuth(c *gin.Context) {
 		if !flag {
 			c.JSON(200, gin.H{
 				"code": 403,
-				"msg":  "没有权限:" + uriParam,
+				"msg":  "沒有權限:" + uriParam,
 			})
 			c.Abort()
 			return
@@ -39,7 +40,7 @@ func RbacAuth(c *gin.Context) {
 		//if !methodFlag {
 		//	c.JSON(200, gin.H{
 		//		"code": 403,
-		//		"msg":  "没有权限:" + c.Request.Method + "," + rPaths[0],
+		//		"msg":  "沒有權限:" + c.Request.Method + "," + rPaths[0],
 		//	})
 		//	c.Abort()
 		//	return
@@ -57,7 +58,7 @@ func RbacAuth(c *gin.Context) {
 	//	if !flag {
 	//		c.JSON(200, gin.H{
 	//			"code": 403,
-	//			"msg":  "没有权限:" + rPaths[0],
+	//			"msg":  "沒有權限:" + rPaths[0],
 	//		})
 	//		c.Abort()
 	//		return

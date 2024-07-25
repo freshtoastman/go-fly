@@ -160,7 +160,7 @@
 .imgGray {-webkit-filter: grayscale(100%);-ms-filter: grayscale(100%);filter: grayscale(100%);filter: gray;color:#888;}
 .hasLastMsg{line-height: normal;}
 .lastNewMsg{font-size: 12px;color: #7f7f7f;margin-top: 4px;overflow: hidden;height: 16px;}
-/*客服页*/
+/*客服頁*/
 .chatKfPageApp{
     max-width: 800px;
     margin:0 auto;
@@ -566,21 +566,21 @@ a{color: #07a9fe;text-decoration: none;}
     color: red;
     padding: 0 3px;
 }
-    /* 定义滚动条的宽度、高度和背景色 */
+    /* 定义滾動条的宽度、高度和背景色 */
 ::-webkit-scrollbar {
     width: 8px;
     height: 10px;
     background-color: #f5f5f5;
 }
 
-/* 定义滚动条滑块的样式 */
+/* 定义滾動条滑块的样式 */
 ::-webkit-scrollbar-thumb {
     background-color: #c5c5c5;
 }
 
 
 
-/* 定义滚动条滑块在 hover 状态下的样式 */
+/* 定义滾動条滑块在 hover 狀態下的样式 */
 ::-webkit-scrollbar-thumb:hover {
     background-color: #999;
 }

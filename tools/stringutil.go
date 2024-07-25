@@ -1,13 +1,14 @@
-// stringutil 包含有用于处理字符串的工具函数。
+// stringutil 包含有用于處理字符串的工具函數。
 package tools
 
 import (
 	"fmt"
-	"github.com/gobuffalo/packr/v2"
 	"net/http"
+
+	"github.com/gobuffalo/packr/v2"
 )
 
-//获取URL的GET参数
+// 獲得URL的GET參數
 func GetUrlArg(r *http.Request, name string) string {
 	var arg string
 	values := r.URL.Query()
@@ -15,7 +16,7 @@ func GetUrlArg(r *http.Request, name string) string {
 	return arg
 }
 
-// Reverse 将其实参字符串以符文为单位左右反转。
+// Reverse 將其实参字符串以符文為单位左右反轉。
 func Reverse(s string) string {
 	r := []rune(s)
 	for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
@@ -24,7 +25,7 @@ func Reverse(s string) string {
 	return string(r)
 }
 
-// Reverse2 将其实参字符串以符文为单位左右反转。
+// Reverse2 將其实参字符串以符文為单位左右反轉。
 func Reverse2(s string) string {
 	r := []rune(s)
 	left := 0
@@ -37,7 +38,7 @@ func Reverse2(s string) string {
 	return string(r)
 }
 
-//获取文件内容，可以打包到二进制
+// 獲得文件内容，可以打包到二進制
 func FileGetContent(file string) string {
 	str := ""
 	box := packr.New("tmpl", "../static")

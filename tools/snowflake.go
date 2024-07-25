@@ -16,19 +16,19 @@ import (
 * | 0000000000 0000000000 0000000000 0000000000 0 | 0000000000 | 0000000000 00 |
 * +-----------------------------------------------+------------+---------------+
 *
-* 1. 41位时间截(毫秒级)，注意这是时间截的差值（当前时间截 - 开始时间截)。可以使用约70年: (1L << 41) / (1000L * 60 * 60 * 24 * 365) = 69
-* 2. 10位数据机器位，可以部署在1024个节点
-* 3. 12位序列，毫秒内的计数，同一机器，同一时间截并发4096个序号
+* 1. 41位時间截(毫秒级)，注意这是時间截的差值（當前時间截 - 开始時间截)。可以使用约70年: (1L << 41) / (1000L * 60 * 60 * 24 * 365) = 69
+* 2. 10位數據機器位，可以部署在1024个节点
+* 3. 12位序列，毫秒内的計數，同一機器，同一時间截並發4096个序號
  */
 
 const (
-	twepoch        = int64(1483228800000)             //开始时间截 (2017-01-01)
-	workeridBits   = uint(10)                         //机器id所占的位数
-	sequenceBits   = uint(12)                         //序列所占的位数
-	workeridMax    = int64(-1 ^ (-1 << workeridBits)) //支持的最大机器id数量
+	twepoch        = int64(1483228800000)             //开始時间截 (2017-01-01)
+	workeridBits   = uint(10)                         //機器id所占的位數
+	sequenceBits   = uint(12)                         //序列所占的位數
+	workeridMax    = int64(-1 ^ (-1 << workeridBits)) //支持的最大機器id數量
 	sequenceMask   = int64(-1 ^ (-1 << sequenceBits)) //
-	workeridShift  = sequenceBits                     //机器id左移位数
-	timestampShift = sequenceBits + workeridBits      //时间戳左移位数
+	workeridShift  = sequenceBits                     //機器id左移位數
+	timestampShift = sequenceBits + workeridBits      //時间戳左移位數
 )
 
 // A Snowflake struct holds the basic information needed for a snowflake generator worker

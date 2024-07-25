@@ -1,13 +1,14 @@
 package middleware
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/taoshihan1991/imaptool/tools"
-	"time"
 )
 
 func JwtPageMiddleware(c *gin.Context) {
-	//暂时不处理
+	//暫時不處理
 	//token := c.Query("token")
 	//userinfo := tools.ParseToken(token)
 	//if userinfo == nil {
@@ -24,7 +25,7 @@ func JwtApiMiddleware(c *gin.Context) {
 	if userinfo == nil || userinfo["name"] == nil || userinfo["create_time"] == nil {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "验证失败",
+			"msg":  "驗證失敗",
 		})
 		c.Abort()
 		return

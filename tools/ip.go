@@ -2,8 +2,9 @@ package tools
 
 import (
 	"errors"
-	"github.com/ipipdotnet/ipdb-go"
 	"net"
+
+	"github.com/ipipdotnet/ipdb-go"
 )
 
 func ParseIp(myip string) *ipdb.CityInfo {
@@ -63,7 +64,7 @@ func getIpFromAddr(addr net.Addr) net.IP {
 	return ip
 }
 
-//获取出站IP地址
+// 獲得出站IP地址
 func GetOutboundIP() (net.IP, error) {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {

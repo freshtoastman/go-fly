@@ -99,7 +99,7 @@ server {
         server_name  gofly.sopans.com;
         access_log  /var/log/nginx/gofly.sopans.com.access.log  main;
         location /static {
-                root /var/www/html/go-fly;//自己的部署路径,静态文件直接nginx响应
+                root /var/www/html/go-fly;//自己的部署路徑,静态文件直接nginx响应
         }
         location / {
                 proxy_pass http://127.0.0.1:8081;
@@ -115,7 +115,7 @@ server{
         server_name  gofly.sopans.com;
         access_log  /var/log/nginx/gofly.sopans.com.access.log  main;
         location /static {
-                root /var/www/html/go-fly;//自己的部署路径,静态文件直接nginx响应
+                root /var/www/html/go-fly;//自己的部署路徑,静态文件直接nginx响应
         }        
         location / {
                 proxy_pass http://127.0.0.1:8081;

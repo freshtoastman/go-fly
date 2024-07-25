@@ -1,19 +1,20 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"github.com/taoshihan1991/imaptool/common"
-	"github.com/taoshihan1991/imaptool/models"
-	"github.com/taoshihan1991/imaptool/tools"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/spf13/cobra"
+	"github.com/taoshihan1991/imaptool/common"
+	"github.com/taoshihan1991/imaptool/models"
+	"github.com/taoshihan1991/imaptool/tools"
 )
 
 var installCmd = &cobra.Command{
 	Use:   "install",
-	Short: "安装导入数据",
+	Short: "安装导入數據",
 	Run: func(cmd *cobra.Command, args []string) {
 		install()
 	},
@@ -21,14 +22,14 @@ var installCmd = &cobra.Command{
 
 func install() {
 	if ok, _ := tools.IsFileNotExist("./install.lock"); !ok {
-		log.Println("请先删除./install.lock")
+		log.Println("請先刪除./install.lock")
 		os.Exit(1)
 	}
 	sqlFile := "import.sql"
 	isExit, _ := tools.IsFileExist(common.MysqlConf)
 	dataExit, _ := tools.IsFileExist(sqlFile)
 	if !isExit || !dataExit {
-		log.Println("config/mysql.json 数据库配置文件或者数据库文件go-fly.sql不存在")
+		log.Println("config/mysql.json 數據庫配置文件或者數據庫文件go-fly.sql不存在")
 		os.Exit(1)
 	}
 	sqls, _ := ioutil.ReadFile(sqlFile)
@@ -42,7 +43,7 @@ func install() {
 		if err == nil {
 			log.Println(sql, "\t success!")
 		} else {
-			log.Println(sql, err, "\t failed!", "数据库导入失败")
+			log.Println(sql, err, "\t failed!", "數據庫导入失敗")
 			os.Exit(1)
 		}
 	}

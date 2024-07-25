@@ -15,7 +15,7 @@ func SortMap(youMap map[string]interface{}) []interface{} {
 	return myMap
 }
 
-//划分
+// 划分
 func partition(arr *[]int, left int, right int) int {
 	privot := (*arr)[right]
 	i := left - 1
@@ -33,7 +33,7 @@ func partition(arr *[]int, left int, right int) int {
 	return i + 1
 }
 
-//递归
+// 递归
 func QuickSort(arr *[]int, left int, right int) {
 	if left >= right {
 		return
@@ -43,8 +43,8 @@ func QuickSort(arr *[]int, left int, right int) {
 	QuickSort(arr, privot+1, right)
 }
 
-//快速排序2
-//找到一个基准，左边是所有比它小的，右边是比它大的，分别递归左右
+// 快速排序2
+// 找到一个基准，左边是所有比它小的，右边是比它大的，分别递归左右
 func QuickSort2(arr *[]int, left int, right int) {
 	if left >= right {
 		return
@@ -70,8 +70,8 @@ func QuickSort2(arr *[]int, left int, right int) {
 	QuickSort(arr, i+1, right)
 }
 
-//冒泡排序
-//比较相邻元素，较大的往右移
+// 冒泡排序
+// 比较相邻元素，较大的往右移
 func BubbleSort(arr *[]int) {
 	flag := true
 	lastSwapIndex := 0
@@ -93,8 +93,8 @@ func BubbleSort(arr *[]int) {
 	}
 }
 
-//插入排序
-//将未排序部分插入到已排序部分的适当位置
+// 插入排序
+// 將未排序部分插入到已排序部分的适当位置
 func InsertionSort(arr *[]int) {
 	for i := 1; i < len(*arr); i++ {
 		curKey := (*arr)[i]
@@ -110,8 +110,8 @@ func InsertionSort(arr *[]int) {
 	}
 }
 
-//选择排序
-//选择一个最小值，再寻找比它还小的进行交换
+// 選擇排序
+// 選擇一个最小值，再寻找比它还小的進行交换
 func SelectionSort(arr *[]int) {
 	for i := 0; i < len(*arr); i++ {
 		minIndex := i
@@ -126,8 +126,8 @@ func SelectionSort(arr *[]int) {
 	}
 }
 
-//归并排序
-//合久必分，分久必合，利用临时数组合并两个有序数组
+// 归並排序
+// 合久必分，分久必合，利用临時數組合並两个有序數組
 func MergeSort(arr *[]int, left int, right int) {
 	if left >= right {
 		return

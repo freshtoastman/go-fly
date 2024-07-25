@@ -1,11 +1,12 @@
 package tmpl
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-//设置界面
+// 設置界面
 func PageSetting(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting.html", gin.H{
 		"tab_index": "1-1",
@@ -13,7 +14,7 @@ func PageSetting(c *gin.Context) {
 	})
 }
 
-//设置欢迎
+// 設置歡迎
 func PageSettingWelcome(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_welcome.html", gin.H{
 		"tab_index": "1-2",
@@ -21,7 +22,7 @@ func PageSettingWelcome(c *gin.Context) {
 	})
 }
 
-//统计
+// 统計
 func PageSettingStatis(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_statistics.html", gin.H{
 		"tab_index": "1-3",
@@ -29,7 +30,7 @@ func PageSettingStatis(c *gin.Context) {
 	})
 }
 
-//设置mysql
+// 設置mysql
 func PageSettingMysql(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_mysql.html", gin.H{
 		"tab_index": "2-4",
@@ -37,7 +38,7 @@ func PageSettingMysql(c *gin.Context) {
 	})
 }
 
-//设置部署
+// 設置部署
 func PageSettingDeploy(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_deploy.html", gin.H{
 		"tab_index": "2-5",
@@ -64,7 +65,7 @@ func PageModifypass(c *gin.Context) {
 	})
 }
 
-//角色列表
+// 角色列表
 func PageRoleList(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_role_list.html", gin.H{
 		"tab_index": "3-1",
@@ -72,7 +73,7 @@ func PageRoleList(c *gin.Context) {
 	})
 }
 
-//角色列表
+// 角色列表
 func PageIpblack(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_ipblack.html", gin.H{
 		"tab_index": "4-5",
@@ -80,7 +81,7 @@ func PageIpblack(c *gin.Context) {
 	})
 }
 
-//配置项列表
+// 配置項列表
 func PageConfig(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_config.html", gin.H{
 		"tab_index": "4-6",
@@ -88,7 +89,7 @@ func PageConfig(c *gin.Context) {
 	})
 }
 
-//配置项编辑首页
+// 配置項編輯首頁
 func PageSettingIndexPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_pageindex.html", gin.H{
 		"tab_index": "4-7",
@@ -96,7 +97,7 @@ func PageSettingIndexPage(c *gin.Context) {
 	})
 }
 
-//配置项编辑首页
+// 配置項編輯首頁
 func PageSettingIndexPages(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_indexpages.html", gin.H{
 		"tab_index": "4-7",

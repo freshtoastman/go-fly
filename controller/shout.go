@@ -3,12 +3,13 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/taoshihan1991/imaptool/models"
-	"github.com/taoshihan1991/imaptool/tools"
-	"github.com/taoshihan1991/imaptool/ws"
 	"log"
 	"strconv"
 	"time"
+
+	"github.com/taoshihan1991/imaptool/models"
+	"github.com/taoshihan1991/imaptool/tools"
+	"github.com/taoshihan1991/imaptool/ws"
 )
 
 func SendServerJiang(title string, content string, domain string) string {
@@ -19,7 +20,7 @@ func SendServerJiang(title string, content string, domain string) string {
 		return ""
 	}
 	sendStr := fmt.Sprintf("%s%s", title, content)
-	desp := title + ":" + content + "[登录](http://" + domain + "/main)"
+	desp := title + ":" + content + "[登錄](http://" + domain + "/main)"
 	url := serverJiangAPI + "?text=" + sendStr + "&desp=" + desp
 	//log.Println(url)
 	res := tools.Get(url)
