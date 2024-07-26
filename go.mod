@@ -1,4 +1,4 @@
-module github.com/taoshihan1991/imaptool
+module github.com/freshtoastman/imaptool
 
 go 1.16
 

@@ -3,9 +3,9 @@ package controller
 import (
 	"strconv"
 
+	"github.com/freshtoastman/imaptool/common"
+	"github.com/freshtoastman/imaptool/models"
 	"github.com/gin-gonic/gin"
-	"github.com/taoshihan1991/imaptool/common"
-	"github.com/taoshihan1991/imaptool/models"
 )
 
 func PostIpblack(c *gin.Context) {

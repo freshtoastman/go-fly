@@ -2,8 +2,9 @@ package common
 
 import (
 	"encoding/json"
-	"github.com/taoshihan1991/imaptool/tools"
 	"io/ioutil"
+
+	"github.com/freshtoastman/imaptool/tools"
 )
 
 type Mysql struct {

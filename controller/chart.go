@@ -3,9 +3,9 @@ package controller
 import (
 	"time"
 
+	"github.com/freshtoastman/imaptool/models"
+	"github.com/freshtoastman/imaptool/tools"
 	"github.com/gin-gonic/gin"
-	"github.com/taoshihan1991/imaptool/models"
-	"github.com/taoshihan1991/imaptool/tools"
 )
 
 func GetChartStatistic(c *gin.Context) {

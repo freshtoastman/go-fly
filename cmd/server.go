@@ -8,15 +8,15 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/freshtoastman/imaptool/common"
+	"github.com/freshtoastman/imaptool/middleware"
+	"github.com/freshtoastman/imaptool/router"
+	"github.com/freshtoastman/imaptool/static"
+	"github.com/freshtoastman/imaptool/tools"
+	"github.com/freshtoastman/imaptool/ws"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
-	"github.com/taoshihan1991/imaptool/common"
-	"github.com/taoshihan1991/imaptool/middleware"
-	"github.com/taoshihan1991/imaptool/router"
-	"github.com/taoshihan1991/imaptool/static"
-	"github.com/taoshihan1991/imaptool/tools"
-	"github.com/taoshihan1991/imaptool/ws"
 	"github.com/zh-five/xdaemon"
 )
 

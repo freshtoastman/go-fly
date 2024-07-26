@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/freshtoastman/imaptool/common"
 	"github.com/jinzhu/gorm"
-	"github.com/taoshihan1991/imaptool/common"
 )
 
 var DB *gorm.DB
