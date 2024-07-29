@@ -22,7 +22,7 @@ func PageSettingWelcome(c *gin.Context) {
 	})
 }
 
-// 统計
+// 統計
 func PageSettingStatis(c *gin.Context) {
 	c.HTML(http.StatusOK, "setting_statistics.html", gin.H{
 		"tab_index": "1-3",

@@ -8,7 +8,7 @@ var GOFLY_LANG={
         "moremessage":" 點擊加载更多紀錄",
         "copyright":"",
         "textarea":"請輸入内容",
-        "closemes":"系统自動關閉連接!點擊會重連",
+        "closemes":"系統自動關閉連接!點擊會重連",
         "forceclosemes":"客服關閉連接!請重新打开頁面",
         "autoclosemes":"长時间未回应關閉連接!請刷新頁面",
         "mesBtn":"全部消息紀錄",

@@ -8,12 +8,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/freshtoastman/imaptool/common"
-	"github.com/freshtoastman/imaptool/models"
-	"github.com/freshtoastman/imaptool/tools"
-	"github.com/freshtoastman/imaptool/ws"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/taoshihan1991/imaptool/common"
+	"github.com/taoshihan1991/imaptool/models"
+	"github.com/taoshihan1991/imaptool/tools"
+	"github.com/taoshihan1991/imaptool/ws"
 )
 
 func PostInstall(c *gin.Context) {
@@ -21,7 +21,7 @@ func PostInstall(c *gin.Context) {
 	if !notExist {
 		c.JSON(200, gin.H{
 			"code": 400,
-			"msg":  "系统已經安装過了",
+			"msg":  "系統已經安装過了",
 		})
 		return
 	}

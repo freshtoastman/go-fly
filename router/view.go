@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/freshtoastman/imaptool/middleware"
-	"github.com/freshtoastman/imaptool/tmpl"
 	"github.com/gin-gonic/gin"
+	"github.com/taoshihan1991/imaptool/middleware"
+	"github.com/taoshihan1991/imaptool/tmpl"
 )
 
 func InitViewRouter(engine *gin.Engine) {

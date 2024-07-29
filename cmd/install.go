@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/freshtoastman/imaptool/common"
-	"github.com/freshtoastman/imaptool/models"
-	"github.com/freshtoastman/imaptool/tools"
 	"github.com/spf13/cobra"
+	"github.com/taoshihan1991/imaptool/common"
+	"github.com/taoshihan1991/imaptool/models"
+	"github.com/taoshihan1991/imaptool/tools"
 )
 
 var installCmd = &cobra.Command{

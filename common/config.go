@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/freshtoastman/imaptool/tools"
+	"github.com/taoshihan1991/imaptool/tools"
 )
 
 type Mysql struct {

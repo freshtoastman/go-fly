@@ -2,10 +2,10 @@ const KEFU={
     KEFU_URL:"",
     KEFU_KEFU_ID:"",
     KEFU_ENT:"",
-    KEFU_LANG:"en",
+    KEFU_LANG:"cn",
     KEFU_EXTRA: {},
     KEFU_AUTO_OPEN:true,//是否自動打开
-    KEFU_SHOW_TYPES:1,//展示样式，1：普通右下角，2：圆形icon
+    KEFU_SHOW_TYPES:2,//展示样式，1：普通右下角，2：圆形icon
     KEFU_AUTO_SHOW:false,
     KEFU_WITHOUT_BOX:false,
     VISITOR_ID:"",
@@ -25,7 +25,7 @@ KEFU.kefuDialogDelay="3000";
 KEFU.offLine=false;
 KEFU.TEXT={
     "cn":{
-        "online_notice":"在線諮詢",
+        "online_notice":"快問",
         "offline_notice":"離線留言",
     },
     "en":{
@@ -97,8 +97,8 @@ KEFU.showPcTips=function(){
         <div id="launchButton" class="launchButton">
             <div id="launchIcon" class="launchIcon">1</div>
                 <div class="launchButtonText">
-                    <img src="`+_this.KEFU_URL+`/static/images/wechatLogo.png"/>
-                    <span class='flyUsername'>在線諮詢</span>
+                    <img src="`+_this.KEFU_URL+`/static/images/chat_ico.png"/>
+                    <span class='flyUsername'>快問</span>
                 </div>
         </div>
         <div id="launchButtonNotice" class="launchButtonNotice"></div>
@@ -119,7 +119,7 @@ KEFU.addClickEvent=function(){
             if(_this.launchButtonFlag){
                 return;
             }
-            _this.KEFU_AUTO_SHOW=true;
+            _this.KEFU_AUTO_SHOW=false;
             _this.showKefu();
             jQuery("#launchIcon").text(0).hide();
         });
@@ -296,7 +296,7 @@ KEFU.layerOpen=function (width,height,offset){
 
         </div>
         <div class="kfBarText">
-            <div class="kfName">在線客服系统</div>
+            <div class="kfName">在線客服系統</div>
          </div>
     </div>
     `;

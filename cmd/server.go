@@ -8,15 +8,15 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/freshtoastman/imaptool/common"
-	"github.com/freshtoastman/imaptool/middleware"
-	"github.com/freshtoastman/imaptool/router"
-	"github.com/freshtoastman/imaptool/static"
-	"github.com/freshtoastman/imaptool/tools"
-	"github.com/freshtoastman/imaptool/ws"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
+	"github.com/taoshihan1991/imaptool/common"
+	"github.com/taoshihan1991/imaptool/middleware"
+	"github.com/taoshihan1991/imaptool/router"
+	"github.com/taoshihan1991/imaptool/static"
+	"github.com/taoshihan1991/imaptool/tools"
+	"github.com/taoshihan1991/imaptool/ws"
 	"github.com/zh-five/xdaemon"
 )
 
@@ -34,7 +34,7 @@ var serverCmd = &cobra.Command{
 }
 
 func init() {
-	serverCmd.PersistentFlags().StringVarP(&port, "port", "p", "8081", "监听端口號")
+	serverCmd.PersistentFlags().StringVarP(&port, "port", "p", "8082", "监听端口號")
 	serverCmd.PersistentFlags().BoolVarP(&daemon, "daemon", "d", false, "是否為守护進程模式")
 }
 func run() {
@@ -57,7 +57,7 @@ func run() {
 	baseServer := "0.0.0.0:" + port
 	log.Println("start server...\r\ngo：http://" + baseServer)
 	tools.Logger().Println("start server...\r\ngo：http://" + baseServer)
-
+	gin.SetMode(gin.ReleaseMode)
 	engine := gin.Default()
 	if common.IsCompireTemplate {
 		templ := template.Must(template.New("").ParseFS(static.TemplatesEmbed, "templates/*.html"))

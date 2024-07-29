@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `name`, `password`, `nickname`, `created_at`, `updated_at`, `deleted_at`, `avator`) VALUE
-(1, 'teach_support', '202cb962ac59075b964b07152d234b70', '國中小客服系统', '2020-06-27 19:32:41', '2020-07-04 09:32:20', NULL, '/static/images/4.jpg');
+(1, 'teach_support', '202cb962ac59075b964b07152d234b70', '國中小客服系統', '2020-06-27 19:32:41', '2020-07-04 09:32:20', NULL, '/static/images/4.jpg');
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -110,7 +110,7 @@ CREATE TABLE `config` (
  PRIMARY KEY (`id`),
  UNIQUE KEY `conf_key` (`conf_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '公告信息', 'AllNotice', '國中小課程與教學計畫客服系统為您服務');
+INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '公告信息', 'AllNotice', '國中小課程與教學計畫客服系統為您服務');
 INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '離線消息', 'OfflineMessage', '我現在離線,稍後回覆您！');
 INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '歡迎消息', 'WelcomeMessage', '有什麼可以幫您？');
 INSERT INTO `config` (`id`, `conf_name`, `conf_key`, `conf_value`) VALUES (NULL, '信箱地址(SMTP地址)', 'NoticeEmailSmtp', '');

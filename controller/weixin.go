@@ -6,8 +6,8 @@ import (
 	"log"
 	"sort"
 
-	"github.com/freshtoastman/imaptool/models"
 	"github.com/gin-gonic/gin"
+	"github.com/taoshihan1991/imaptool/models"
 )
 
 func GetCheckWeixinSign(c *gin.Context) {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/freshtoastman/imaptool/cmd"
+	"github.com/taoshihan1991/imaptool/cmd"
 )
 
 func main() {

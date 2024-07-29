@@ -2,11 +2,11 @@ package controller
 
 import (
 	"github.com/dchest/captcha"
-	"github.com/freshtoastman/imaptool/models"
-	"github.com/freshtoastman/imaptool/tools"
-	"github.com/freshtoastman/imaptool/ws"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/taoshihan1991/imaptool/models"
+	"github.com/taoshihan1991/imaptool/tools"
+	"github.com/taoshihan1991/imaptool/ws"
 )
 
 func PostKefuAvator(c *gin.Context) {
@@ -247,6 +247,9 @@ func PostKefuInfo(c *gin.Context) {
 	//插入新用戶
 	if id == "" {
 		uid := models.CreateUser(name, tools.Md5(password), avator, nickname)
+		var uRole = models.FindRoleByUserId("1")
+		models.CreateUserRole(uid, uint(uRole.RoleId))
+
 		if uid == 0 {
 			c.JSON(200, gin.H{
 				"code":   400,

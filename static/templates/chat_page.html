@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
-    <meta name="keywords" content="开源客服系统"/>
+    <meta name="keywords" content="开源客服系統"/>
     <title>國中小課程與教學計畫客服系統</title>
     <link rel="stylesheet" href="/static/cdn/element-ui/2.15.1/theme-chalk/index.min.css">
     <script src="/static/cdn/vue/2.6.11/vue.min.js"></script>
@@ -32,7 +32,7 @@
             <div class="chatContext chatVisitorPage">
                 <div class="chatBox">
                     <div class="chatNotice" v-on:click="getHistoryMessage" v-show="showLoadMore">
-                        <a href="javascript:;" class="chatNoticeContent" style="color: #07a9fe;">點擊加载更多紀錄</a>
+                        <a href="javascript:;" class="chatNoticeContent" style="color: #07a9fe;">點擊查詢過往紀錄</a>
                     </div>
                     <el-row :gutter="2" v-for="v in msgList" v-bind:class="{'chatBoxMe': v.is_kefu==false}">
                         <div class="chatTime" v-bind:class="{'chatTimeHide': v.show_time==false}"><span><{v.time}></span></div>
@@ -53,12 +53,10 @@
             <div class="chatBoxSend">
 
                 <div class="visitorIconBox">
-                    <el-tooltip content="發送表情" placement="top">
-                        <div class="iconBtn iconfont icon-xiaolian" style="margin-left:10px;font-size: 24px;cursor: pointer;" @click.stop="showFaceIcon==true?showFaceIcon=false:showFaceIcon=true"></div>
-                    </el-tooltip>
+
 
                     <el-tooltip content="上傳圖片" placement="top">
-                        <div class="iconBtn el-icon-picture" id="uploadImg" v-on:click="uploadImg('/uploadimg')" style="font-size: 24px;"></div>
+                        <div class="iconBtn el-icon-picture" id="uploadImg" v-on:click="uploadImg('/uploadimg')" style="margin-left:10px;font-size: 24px;cursor: pointer;" ></div>
                     </el-tooltip>
                     <el-tooltip content="上傳附件" placement="top">
                         <div  class="iconBtn el-icon-upload" id="uploadFile" v-on:click="uploadFile('/uploadfile')" style="font-size: 26px;"></div>

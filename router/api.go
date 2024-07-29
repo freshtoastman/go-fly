@@ -1,10 +1,10 @@
 package router
 
 import (
-	"github.com/freshtoastman/imaptool/controller"
-	"github.com/freshtoastman/imaptool/middleware"
-	"github.com/freshtoastman/imaptool/ws"
 	"github.com/gin-gonic/gin"
+	"github.com/taoshihan1991/imaptool/controller"
+	"github.com/taoshihan1991/imaptool/middleware"
+	"github.com/taoshihan1991/imaptool/ws"
 )
 
 func InitApiRouter(engine *gin.Engine) {

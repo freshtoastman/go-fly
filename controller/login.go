@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/freshtoastman/imaptool/tools"
 	"github.com/gin-gonic/gin"
+	"github.com/taoshihan1991/imaptool/tools"
 )
 
 // @Summary 登錄驗證接口

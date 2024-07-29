@@ -5,8 +5,8 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/freshtoastman/imaptool/models"
 	"github.com/gin-gonic/gin"
+	"github.com/taoshihan1991/imaptool/models"
 )
 
 func PageDetail(c *gin.Context) {

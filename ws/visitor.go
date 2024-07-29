@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/freshtoastman/imaptool/common"
-	"github.com/freshtoastman/imaptool/models"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"github.com/taoshihan1991/imaptool/common"
+	"github.com/taoshihan1991/imaptool/models"
 )
 
 func NewVisitorServer(c *gin.Context) {
