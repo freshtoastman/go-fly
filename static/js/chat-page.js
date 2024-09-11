@@ -9,7 +9,7 @@ new Vue({
         msgList:[],
         msgListNum:[],
         messageContent:"",
-        chatTitle:GOFLY_LANG[LANG]['connecting'],
+        chatTitle:GOFLY_LANG[LANG]['連接中'],
         visitor:{},
         face:[],
         showKfonline:false,
@@ -32,7 +32,7 @@ new Vue({
     methods: {
         //初始化websocket
         initConn:function() {
-            let socket = new ReconnectingWebSocket(this.server+"?visitor_id="+this.visitor.visitor_id);//创建Socket实例
+            let socket = new ReconnectingWebSocket(this.server+"?visitor_id="+this.visitor.visitor_id);//創建Socket實例
             this.socket = socket
             this.socket.onmessage = this.OnMessage;
             this.socket.onopen = this.OnOpen;
@@ -41,14 +41,14 @@ new Vue({
             this.ping();
         },
         OnOpen:function() {
-            console.log("ws:onopen");
-            //获取欢迎
+            console.log("ws:開啟");
+            //獲取歡迎
             this.getNotice();
             this.socketClosed=false;
             this.focusSendConn=false;
         },
         OnMessage:function(e) {
-            console.log("ws:onmessage");
+            console.log("ws:收到消息");
             this.socketClosed=false;
             this.focusSendConn=false;
             const redata = JSON.parse(e.data);
@@ -58,7 +58,7 @@ new Vue({
                     return;
                 }
                 this.visitor.to_id=msg.id;
-                this.showTitle(msg.name+","+GOFLY_LANG[LANG]['chating']);
+                this.showTitle(msg.name+","+GOFLY_LANG[LANG]['正在聊天']);
                 this.scrollBottom();
                 this.showKfonline=true;
             }
@@ -98,27 +98,26 @@ new Vue({
                     notification.close();
                 });
                 this.scrollBottom();
-                flashTitle();//标题闪烁
+                flashTitle();//標題閃爍
                 clearInterval(this.timer);
                 this.alertSound();//提示音
             }
             if (redata.type == "close") {
-                this.chatTitle=GOFLY_LANG[LANG]['closemes'];
+                this.chatTitle=GOFLY_LANG[LANG]['關閉消息'];
                 $(".chatBox").append("<div class=\"chatTime\">"+this.chatTitle+"</div>");
                 this.scrollBottom();
                 this.socket.close();
-                //this.socketClosed=true;
                 this.focusSendConn=true;
             }
             if (redata.type == "force_close") {
-                this.chatTitle=GOFLY_LANG[LANG]['forceclosemes'];
+                this.chatTitle=GOFLY_LANG[LANG]['強制關閉消息'];
                 $(".chatBox").append("<div class=\"chatTime\">"+this.chatTitle+"</div>");
                 this.scrollBottom();
                 this.socket.close();
                 this.socketClosed=true;
             }
             if (redata.type == "auto_close") {
-                this.chatTitle=GOFLY_LANG[LANG]['autoclosemes'];
+                this.chatTitle=GOFLY_LANG[LANG]['自動關閉消息'];
                 $(".chatBox").append("<div class=\"chatTime\">"+this.chatTitle+"</div>");
                 this.scrollBottom();
                 this.socket.close();
@@ -126,7 +125,7 @@ new Vue({
             }
             window.parent.postMessage(redata,"*");
         },
-        //发送给客户
+        //發送給客戶
         chatToUser:function() {
             var messageContent=this.messageContent.trim("\r\n");
             messageContent=messageContent.replace("\n","");
@@ -138,7 +137,7 @@ new Vue({
             this.messageContent=messageContent;
             if(this.socketClosed){
                 this.$message({
-                    message: '连接关闭!请重新打开页面',
+                    message: '連接關閉！請重新打開頁面',
                     type: 'warning'
                 });
                 return;
@@ -162,7 +161,7 @@ new Vue({
             mes.from_id = this.visitor.visitor_id;
             mes.to_id = this.visitor.to_id;
             mes.content = this.messageContent;
-            //发送消息
+            //發送消息
             $.post("/2/message",mes,function(res){
                 _this.sendDisabled=false;
                 if(res.code!=200){
@@ -180,25 +179,20 @@ new Vue({
 
         },
         OnClose:function() {
-            console.log("ws:onclose");
+            console.log("ws:關閉");
             this.focusSendConn=true;
-            //this.socketClosed=true;
-            // this.chatTitle="连接关闭!请重新打开页面";
-            // $(".chatBox").append("<div class=\"chatTime\">"+this.chatTitle+"</div>");
-            // this.scrollBottom();
         },
-        //获取当前用户信息
+        //獲取當前用戶信息
         getUserInfo:function(){
             let obj=this.getCache("visitor");
             var visitor_id=""
             var to_id=KEFU_ID;
             if(obj){
                 visitor_id=obj.visitor_id;
-                //to_id=obj.to_id;
             }
                 let _this=this;
                 var extra=getQuery("extra");
-                //发送消息
+                //發送消息
                 $.post("/visitor_login",{visitor_id:visitor_id,refer:REFER,to_id:to_id,extra:extra},function(res){
                     if(res.code!=200){
                         _this.$message({
@@ -211,15 +205,10 @@ new Vue({
                     _this.visitor=res.result;
                     _this.getHistoryMessage();
                     _this.setCache("visitor",res.result);
-                    //_this.getMesssagesByVisitorId();
                     _this.initConn();
                 });
-            // }else{
-            //     this.visitor=obj;
-            //     this.initConn();
-            // }
         },
-        //获取信息列表
+        //獲取信息列表
         getHistoryMessage:function(){
             let params={
                 page:this.messages.page,
@@ -255,20 +244,20 @@ new Vue({
                 _this.messages.page++;
             });
         },
-        //滚动到底部
+        //滾動到底部
         scrollBottom:function(){
             var _this=this;
             this.$nextTick(function(){
                 $('.chatVisitorPage').scrollTop($(".chatVisitorPage")[0].scrollHeight);
             });
         },
-        //获取日期
-        getNowDate : function() {// 获取日期
+        //獲取日期
+        getNowDate : function() {// 獲取日期
             var d = new Date(new Date());
             return d.getFullYear() + '-' + this.digit(d.getMonth() + 1) + '-' + this.digit(d.getDate())
                 + ' ' + this.digit(d.getHours()) + ':' + this.digit(d.getMinutes()) + ':' + this.digit(d.getSeconds());
         },
-        //补齐数位
+        //補齊數位
         digit : function (num) {
             return num < 10 ? '0' + (num | 0) : num;
         },
@@ -281,14 +270,14 @@ new Vue({
                 return JSON.parse(localStorage.getItem(key));
             }
         },
-        //获取自动欢迎语句
+        //獲取自動歡迎語句
         getNotice : function (){
             let _this=this;
             $.get("/notice?kefu_id="+KEFU_ID,function(res) {
                 var code=res.code;
                 if(code!=200) return;
                 _this.kefuInfo=res.result;
-                _this.showTitle(_this.kefuInfo.nickname+" 为您服务");
+                _this.showTitle(_this.kefuInfo.nickname+" 為您服務");
                 if(!_this.kefuInfo.welcome) return;
                 var msg={
                     content:replaceContent(_this.kefuInfo.welcome),
@@ -305,11 +294,6 @@ new Vue({
         initCss:function(){
             var _this=this;
             $(function () {
-                //$(".chatContext").css("max-height",$(window).height());
-                // if (top.location != location){
-                //     $(".chatContext").css("max-height",$(window).height()-65);
-                // }
-                //展示表情
                 var faces=placeFace();
                 $.each(faceTitles, function (index, item) {
                     _this.face.push({"name":item,"path":faces[item]});
@@ -318,14 +302,8 @@ new Vue({
 
                 var windheight = $(window).height();
                 $(window).resize(function(){
-                    var docheight = $(window).height();  /*唤起键盘时当前窗口高度*/
-                    //_this.scrollBottom();
+                    var docheight = $(window).height();  /*喚起鍵盤時當前窗口高度*/
                     $('body').scrollTop(99999999);
-                    // if(docheight < windheight){            /*当唤起键盘高度小于未唤起键盘高度时执行*/
-                    //     $(".chatBoxSend").css("position","static");
-                    // }else{
-                    //     $(".chatBoxSend").css("position","fixed");
-                    // }
                 });
             });
         },
@@ -351,7 +329,6 @@ new Vue({
                 $('.faceBox').hide();
             });
             window.onfocus = function () {
-                //_this.scrollBottom();
                 clearFlashTitle();
                 window.parent.postMessage({type:"focus"},"*");
                 if(_this.socketClosed){
@@ -365,12 +342,12 @@ new Vue({
             }
 
         },
-        //表情点击事件
+        //表情點擊事件
         faceIconClick:function(index){
             $('.faceBox').hide();
             this.messageContent+="face"+this.face[index].name;
         },
-        //上传图片
+        //上傳圖片
         uploadImg:function (url){
             let _this=this;
             $('#uploadImg').after('<input type="file" accept="image/gif,image/jpeg,image/jpg,image/png" id="uploadImgFile" name="file" style="display:none" >');
@@ -378,7 +355,7 @@ new Vue({
             $("#uploadImgFile").change(function (e) {
                 var formData = new FormData();
                 var file = $("#uploadImgFile")[0].files[0];
-                formData.append("imgfile",file); //传给后台的file的key值是可以自己定义的
+                formData.append("imgfile",file); //傳給後台的file的key值是可以自己定義的
                 filter(file) && $.ajax({
                     url: url || '',
                     type: "post",
@@ -404,7 +381,7 @@ new Vue({
                 });
             });
         },
-        //上传文件
+        //上傳文件
         uploadFile:function (url){
             let _this=this;
             $('#uploadFile').after('<input type="file"  id="uploadRealFile" name="file2" style="display:none" >');
@@ -412,7 +389,7 @@ new Vue({
             $("#uploadRealFile").change(function (e) {
                 var formData = new FormData();
                 var file = $("#uploadRealFile")[0].files[0];
-                formData.append("realfile",file); //传给后台的file的key值是可以自己定义的
+                formData.append("realfile",file); //傳給後台的file的key值是可以自己定義的
                 console.log(formData);
                 $.ajax({
                     url: url || '',
@@ -446,12 +423,12 @@ new Vue({
                 });
             });
         },
-        //粘贴上传图片
+        //粘貼上傳圖片
         onPasteUpload:function(event){
             let items = event.clipboardData && event.clipboardData.items;
             let file = null
             if (items && items.length) {
-                // 检索剪切板items
+                // 檢索剪切板items
                 for (var i = 0; i < items.length; i++) {
                     if (items[i].type.indexOf('image') !== -1) {
                         file = items[i].getAsFile()
@@ -537,10 +514,5 @@ new Vue({
     created: function () {
         this.init();
         this.getUserInfo();
-        //加载历史记录
-        //this.msgList=this.getHistory();
-        //滚动底部
-        //this.scrollBottom();
-
     }
 })

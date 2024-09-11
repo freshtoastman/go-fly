@@ -1,9 +1,9 @@
-<html lang="cn">
+<html lang="zh-Hant">
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>智能开源客服系统</title>
+    <title>智能開源客服系統</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/element-ui/2.15.1/theme-chalk/index.min.css">
     <script src="https://cdn.staticfile.org/vue/2.6.11/vue.min.js"></script>
     <script src="https://cdn.staticfile.org/element-ui/2.15.1/index.js"></script>
@@ -60,21 +60,21 @@
 <div id="app" class="signin">
     <template>
         <div class="loginHtml">
-            <h1 class="loginTitle">智能在线客服系统</h1>
+            <h1 class="loginTitle">智能在線客服系統</h1>
             <el-form :model="kefuForm"  :rules="rules" ref="kefuForm">
                 <el-form-item  prop="username">
-                    <el-input v-model="kefuForm.username" placeholder="用户名"></el-input>
+                    <el-input v-model="kefuForm.username" placeholder="用戶名"></el-input>
                 </el-form-item>
                 <el-form-item  prop="password">
-                    <el-input show-password v-on:keyup.enter.native="kefuLogin('kefuForm')" v-model="kefuForm.password" placeholder="密码"></el-input>
+                    <el-input show-password v-on:keyup.enter.native="kefuLogin('kefuForm')" v-model="kefuForm.password" placeholder="密碼"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button style="width: 100%" :loading="loading" type="primary" @click="kefuLogin('kefuForm')">登录</el-button>
+                    <el-button style="width: 100%" :loading="loading" type="primary" @click="kefuLogin('kefuForm')">登錄</el-button>
                 </el-form-item>
             </el-form>
         </div>
 
-        <p class="copyright">智能在线客服系统</p>
+        <p class="copyright">智能在線客服系統</p>
 </template>
 </div>
 </body>
@@ -96,8 +96,8 @@
                 password:'',
             },
             kefuForm:{
-                username:'',
-                password:'',
+                username:'kefu2',
+                password:'123',
             },
             rules: {
                 server: [
@@ -107,10 +107,10 @@
                     { required: true, message: '邮箱地址', trigger: 'blur' },
                 ],
                 username: [
-                    { required: true, message: '用户名不能为空', trigger: 'blur' },
+                    { required: true, message: '用戶名不能為空', trigger: 'blur' },
                 ],
                 password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' },
+                    { required: true, message: '密碼不能為空', trigger: 'blur' },
                 ],
             },
             showRegHtml:false,

@@ -4,8 +4,8 @@ const KEFU={
     KEFU_ENT:"",
     KEFU_LANG:"en",
     KEFU_EXTRA: {},
-    KEFU_AUTO_OPEN:true,//是否自动打开
-    KEFU_SHOW_TYPES:1,//展示样式，1：普通右下角，2：圆形icon
+    KEFU_AUTO_OPEN:true,//是否自動打開
+    KEFU_SHOW_TYPES:1,//展示樣式，1：普通右下角，2：圓形icon
     KEFU_AUTO_SHOW:false,
     KEFU_WITHOUT_BOX:false,
     VISITOR_ID:"",
@@ -17,7 +17,7 @@ KEFU.titleTimer=0;
 KEFU.titleNum=0;
 KEFU.noticeTimer=null;
 KEFU.originTitle=document.title;
-KEFU.chatPageTitle="KEFU";
+KEFU.chatPageTitle="客服";
 KEFU.kefuName="";
 KEFU.kefuAvator="";
 KEFU.kefuIntroduce="";
@@ -25,8 +25,8 @@ KEFU.kefuDialogDelay="3000";
 KEFU.offLine=false;
 KEFU.TEXT={
     "cn":{
-        "online_notice":"在线咨询",
-        "offline_notice":"离线留言",
+        "online_notice":"在線諮詢",
+        "offline_notice":"離線留言",
     },
     "en":{
         "online_notice":"chat with us",
@@ -81,11 +81,11 @@ KEFU.jsCallBack=function(){
     _this.showPcTips();
     _this.addClickEvent();
 }
-//pc端的样式
+//pc端的樣式
 KEFU.showPcTips=function(){
     var _this=this;
 
-    //自动展开
+    //自動展開
     if(_this.KEFU_AUTO_OPEN&&_this.isIE()<=0){
         setTimeout(function () {
             _this.showKefu();
@@ -98,7 +98,7 @@ KEFU.showPcTips=function(){
             <div id="launchIcon" class="launchIcon">1</div>
                 <div class="launchButtonText">
                     <img src="`+_this.KEFU_URL+`/static/images/wechatLogo.png"/>
-                    <span class='flyUsername'>在线咨询</span>
+                    <span class='flyUsername'>在線諮詢</span>
                 </div>
         </div>
         <div id="launchButtonNotice" class="launchButtonNotice"></div>
@@ -148,7 +148,7 @@ KEFU.addEventlisten=function(){
             clearInterval(_this.noticeTimer);
             var width=jQuery(window).width();
             if(width>768){
-                _this.flashTitle();//标题闪烁
+                _this.flashTitle();//標題閃爍
             }
             if (_this.launchButtonFlag){
                 return;
@@ -212,9 +212,9 @@ KEFU.dynamicLoadJs=function(url, callback){
 
 
 KEFU.isIE=function(){
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
-    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
-    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+    var userAgent = navigator.userAgent; //取得瀏覽器的userAgent字符串
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判斷是否IE<11瀏覽器
+    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判斷是否IE的Edge瀏覽器
     var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
     if(isIE) {
         var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
@@ -236,7 +236,7 @@ KEFU.isIE=function(){
     } else if(isIE11) {
         return 11; //IE11
     }else{
-        return -1;//不是ie浏览器
+        return -1;//不是ie瀏覽器
     }
 }
 KEFU.showPanel=function (){
@@ -296,7 +296,7 @@ KEFU.layerOpen=function (width,height,offset){
 
         </div>
         <div class="kfBarText">
-            <div class="kfName">在线客服系统</div>
+            <div class="kfName">在線客服系統</div>
          </div>
     </div>
     `;
@@ -320,12 +320,12 @@ KEFU.layerOpen=function (width,height,offset){
         type: 2,
         title: title,
         skin:"kfLayer",
-        closeBtn: 1, //不显示关闭按钮
+        closeBtn: 1, //不顯示關閉按鈕
         shade: 0,
         area: [width, height],
-        offset: offset, //右下角弹出
+        offset: offset, //右下角彈出
         anim: 2,
-        content: [chatUrl , 'yes'], //iframe的url，no代表不显示滚动条
+        content: [chatUrl , 'yes'], //iframe的url，no代表不顯示滾動條
         move:false,
         success:function(layero, index){
 
@@ -356,7 +356,7 @@ KEFU.flashTitle=function () {
 }
 
 /**
- * 判断是否是手机访问
+ * 判斷是否是手機訪問
  * @returns {boolean}
  */
 KEFU.isMobile=function () {
