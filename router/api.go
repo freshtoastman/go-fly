@@ -94,4 +94,67 @@ func InitApiRouter(engine *gin.Engine) {
 	}
 	//微信接口
 	engine.GET("/micro_program", middleware.JwtApiMiddleware, controller.GetCheckWeixinSign)
+
+	// ===== 課程計畫填報系統 =====
+	curriculumGroup := engine.Group("/curriculum")
+	curriculumGroup.Use(middleware.JwtApiMiddleware)
+	{
+		// 計畫管理
+		curriculumGroup.GET("/plans", controller.GetCurriculumPlans)
+		curriculumGroup.GET("/plan", controller.GetCurriculumPlan)
+		curriculumGroup.POST("/plan", middleware.RbacAuth, controller.PostCurriculumPlan)
+		curriculumGroup.DELETE("/plan", middleware.RbacAuth, controller.DeleteCurriculumPlan)
+
+		// 計畫表單欄位
+		curriculumGroup.GET("/plan_fields", controller.GetPlanFormFields)
+		curriculumGroup.POST("/plan_field", middleware.RbacAuth, controller.PostPlanFormField)
+		curriculumGroup.DELETE("/plan_field", middleware.RbacAuth, controller.DeletePlanFormField)
+
+		// 填報管理
+		curriculumGroup.GET("/submissions", controller.GetPlanSubmissions)
+		curriculumGroup.GET("/submission", controller.GetPlanSubmission)
+		curriculumGroup.POST("/submission", controller.PostPlanSubmission)
+		curriculumGroup.POST("/submit", controller.PostSubmitPlan)
+
+		// 審查管理
+		curriculumGroup.GET("/reviews", controller.GetPlanReviews)
+		curriculumGroup.POST("/review", controller.PostPlanReview)
+
+		// 審查指派
+		curriculumGroup.GET("/review_assignments", controller.GetReviewAssignments)
+		curriculumGroup.POST("/review_assignment", middleware.RbacAuth, controller.PostReviewAssignment)
+
+		// 統計
+		curriculumGroup.GET("/statistics", controller.GetCurriculumStatistics)
+	}
+
+	// 組織管理
+	orgGroup := engine.Group("/org")
+	orgGroup.Use(middleware.JwtApiMiddleware)
+	{
+		orgGroup.GET("/list", controller.GetOrganizations)
+		orgGroup.GET("/detail", controller.GetOrganization)
+		orgGroup.POST("/save", middleware.RbacAuth, controller.PostOrganization)
+		orgGroup.DELETE("/delete", middleware.RbacAuth, controller.DeleteOrganization)
+		orgGroup.GET("/schools_by_county", controller.GetSchoolsByCounty)
+	}
+
+	// 平台使用者管理
+	puGroup := engine.Group("/platform_user")
+	puGroup.Use(middleware.JwtApiMiddleware)
+	{
+		puGroup.GET("/list", controller.GetPlatformUsers)
+		puGroup.GET("/detail", controller.GetPlatformUser)
+		puGroup.POST("/save", middleware.RbacAuth, controller.PostPlatformUser)
+		puGroup.GET("/committee_members", controller.GetCommitteeMembers)
+	}
+
+	// 通知與日誌
+	notiGroup := engine.Group("/notification")
+	notiGroup.Use(middleware.JwtApiMiddleware)
+	{
+		notiGroup.GET("/list", controller.GetNotifications)
+		notiGroup.POST("/read", controller.PostNotificationRead)
+		notiGroup.GET("/audit_logs", middleware.RbacAuth, controller.GetAuditLogs)
+	}
 }

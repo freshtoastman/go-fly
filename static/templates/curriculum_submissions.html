@@ -1,0 +1,144 @@
+{{template "header" }}
+<div id="app" style="width:100%;padding:20px;">
+    <template>
+        <el-container v-loading.fullscreen.lock="fullscreenLoading">
+            <el-main class="mainMain">
+                <h3>課程計畫填報管理</h3>
+                <el-row :gutter="10" style="margin-bottom:15px;">
+                    <el-col :span="4">
+                        <el-select v-model="searchForm.status" placeholder="狀態" size="small" clearable>
+                            <el-option label="草稿" value="draft"></el-option>
+                            <el-option label="已送出" value="submitted"></el-option>
+                            <el-option label="已通過" value="approved"></el-option>
+                            <el-option label="已退回" value="rejected"></el-option>
+                            <el-option label="已退件" value="returned"></el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-button type="primary" size="small" @click="searchSubmissions">查詢</el-button>
+                        <el-button type="success" size="small" @click="addSubmission">新增填報</el-button>
+                    </el-col>
+                </el-row>
+
+                <el-table :data="subList" border style="width:100%">
+                    <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                    <el-table-column prop="plan_id" label="計畫ID" width="80"></el-table-column>
+                    <el-table-column prop="school_id" label="學校ID" width="80"></el-table-column>
+                    <el-table-column prop="status" label="狀態" width="100">
+                        <template slot-scope="scope">
+                            <el-tag v-if="scope.row.status=='draft'" type="info" size="small">草稿</el-tag>
+                            <el-tag v-else-if="scope.row.status=='submitted'" type="warning" size="small">已送出</el-tag>
+                            <el-tag v-else-if="scope.row.status=='approved'" type="success" size="small">已通過</el-tag>
+                            <el-tag v-else-if="scope.row.status=='rejected'" type="danger" size="small">已退回</el-tag>
+                            <el-tag v-else-if="scope.row.status=='returned'" type="warning" size="small">已退件</el-tag>
+                            <el-tag v-else size="small"><{scope.row.status}></el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="submitted_at" label="送出時間" width="160"></el-table-column>
+                    <el-table-column prop="remark" label="備註"></el-table-column>
+                    <el-table-column label="操作" width="280">
+                        <template slot-scope="scope">
+                            <el-button @click="editSubmission(scope.row)" type="primary" size="mini">編輯</el-button>
+                            <el-button v-if="scope.row.status=='draft'||scope.row.status=='returned'" @click="submitPlan(scope.row.id)" type="success" size="mini">送出</el-button>
+                            <el-button @click="viewReviews(scope.row.id)" type="info" size="mini">審查紀錄</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <el-pagination style="margin-top:15px;" @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total"></el-pagination>
+            </el-main>
+        </el-container>
+
+        <el-dialog :title="subForm.id?'編輯填報':'新增填報'" :visible.sync="subDialog" width="50%" top="5vh">
+            <el-form ref="subForm" :model="subForm" label-width="100px">
+                <el-form-item label="計畫ID" required>
+                    <el-input v-model="subForm.plan_id"></el-input>
+                </el-form-item>
+                <el-form-item label="學校ID" required>
+                    <el-input v-model="subForm.school_id"></el-input>
+                </el-form-item>
+                <el-form-item label="填報內容">
+                    <el-input type="textarea" v-model="subForm.content" :rows="6" placeholder="JSON 格式填報資料"></el-input>
+                </el-form-item>
+                <el-form-item label="備註">
+                    <el-input type="textarea" v-model="subForm.remark" :rows="2"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer">
+                <el-button @click="subDialog=false">取消</el-button>
+                <el-button type="primary" @click="saveSubmission">儲存</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog title="審查紀錄" :visible.sync="reviewDialog" width="60%">
+            <el-table :data="reviewList" border>
+                <el-table-column prop="reviewer_id" label="審查者ID" width="100"></el-table-column>
+                <el-table-column prop="reviewer_role" label="審查角色" width="100"></el-table-column>
+                <el-table-column prop="result" label="結果" width="100">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.result=='approved'" type="success" size="small">通過</el-tag>
+                        <el-tag v-else-if="scope.row.result=='rejected'" type="danger" size="small">退回</el-tag>
+                        <el-tag v-else type="warning" size="small">退件</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="score" label="評分" width="80"></el-table-column>
+                <el-table-column prop="comment" label="審查意見"></el-table-column>
+                <el-table-column prop="reviewed_at" label="審查時間" width="160"></el-table-column>
+            </el-table>
+        </el-dialog>
+    </template>
+</div>
+<script>
+var app = new Vue({
+    el: '#app',
+    delimiters:["<{","}>"],
+    data: {
+        fullscreenLoading: false,
+        subList: [], total: 0, currentPage: 1, pageSize: 20,
+        searchForm: { status: '' },
+        subDialog: false, reviewDialog: false,
+        subForm: { id: '', plan_id: '', school_id: '', content: '', remark: '' },
+        reviewList: []
+    },
+    methods: {
+        sendAjax(url, method, params, callback) {
+            let _this = this;
+            $.ajax({ type: method, url: url, data: params, headers: { "token": localStorage.getItem("token") },
+                success: function(data) { if (data.code != 200) { _this.$message({ message: data.msg, type: 'error' }); } else { callback(data); } }
+            });
+        },
+        searchSubmissions() {
+            let _this = this;
+            this.sendAjax("/curriculum/submissions", "GET", { status: this.searchForm.status, page: this.currentPage, page_size: this.pageSize }, function(data) {
+                _this.subList = data.result || []; _this.total = data.total || 0;
+            });
+        },
+        handlePageChange(page) { this.currentPage = page; this.searchSubmissions(); },
+        addSubmission() { this.subForm = { id: '', plan_id: '', school_id: '', content: '', remark: '' }; this.subDialog = true; },
+        editSubmission(row) { this.subForm = Object.assign({}, row); this.subDialog = true; },
+        saveSubmission() {
+            let _this = this;
+            this.sendAjax("/curriculum/submission", "POST", this.subForm, function(data) {
+                _this.subDialog = false; _this.$message({ message: data.msg, type: 'success' }); _this.searchSubmissions();
+            });
+        },
+        submitPlan(id) {
+            let _this = this;
+            this.$confirm('確定送出此填報？送出後將無法修改。', '提示', { type: 'warning' }).then(function() {
+                _this.sendAjax("/curriculum/submit", "POST", { id: id }, function(data) {
+                    _this.$message({ message: '送出成功', type: 'success' }); _this.searchSubmissions();
+                });
+            });
+        },
+        viewReviews(subId) {
+            let _this = this;
+            this.sendAjax("/curriculum/reviews", "GET", { submission_id: subId }, function(data) {
+                _this.reviewList = data.result || []; _this.reviewDialog = true;
+            });
+        }
+    },
+    created: function() { this.searchSubmissions(); }
+});
+</script>
+</body>
+</html>

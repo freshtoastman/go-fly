@@ -1,0 +1,144 @@
+{{template "header" }}
+<div id="app" style="width:100%;padding:20px;">
+    <template>
+        <el-container v-loading.fullscreen.lock="fullscreenLoading">
+            <el-main class="mainMain">
+                <h3>組織/機關管理</h3>
+                <el-row :gutter="10" style="margin-bottom:15px;">
+                    <el-col :span="4">
+                        <el-select v-model="searchForm.org_type" placeholder="組織類型" size="small" clearable>
+                            <el-option label="學校" value="school"></el-option>
+                            <el-option label="縣市教育局" value="county"></el-option>
+                            <el-option label="教育署" value="ministry"></el-option>
+                            <el-option label="承辦單位" value="contractor"></el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input v-model="searchForm.county" placeholder="縣市" size="small"></el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-button type="primary" size="small" @click="searchOrgs">查詢</el-button>
+                        <el-button type="success" size="small" @click="addOrg">新增組織</el-button>
+                    </el-col>
+                </el-row>
+
+                <el-table :data="orgList" border style="width:100%">
+                    <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                    <el-table-column prop="code" label="代碼" width="100"></el-table-column>
+                    <el-table-column prop="name" label="名稱"></el-table-column>
+                    <el-table-column prop="org_type" label="類型" width="120">
+                        <template slot-scope="scope">
+                            <el-tag v-if="scope.row.org_type=='school'" size="small">學校</el-tag>
+                            <el-tag v-else-if="scope.row.org_type=='county'" type="warning" size="small">縣市教育局</el-tag>
+                            <el-tag v-else-if="scope.row.org_type=='ministry'" type="danger" size="small">教育署</el-tag>
+                            <el-tag v-else type="info" size="small">承辦單位</el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="county" label="縣市" width="100"></el-table-column>
+                    <el-table-column prop="principal" label="負責人" width="100"></el-table-column>
+                    <el-table-column prop="phone" label="電話" width="120"></el-table-column>
+                    <el-table-column label="操作" width="180">
+                        <template slot-scope="scope">
+                            <el-button @click="editOrg(scope.row)" type="primary" size="mini">編輯</el-button>
+                            <el-button @click="deleteOrg(scope.row.id)" type="danger" size="mini">刪除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <el-pagination style="margin-top:15px;" @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total"></el-pagination>
+            </el-main>
+        </el-container>
+
+        <el-dialog :title="orgForm.id?'編輯組織':'新增組織'" :visible.sync="orgDialog" width="50%" top="5vh">
+            <el-form ref="orgForm" :model="orgForm" label-width="100px">
+                <el-form-item label="組織名稱" required>
+                    <el-input v-model="orgForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="組織代碼">
+                    <el-input v-model="orgForm.code" placeholder="學校代碼"></el-input>
+                </el-form-item>
+                <el-form-item label="組織類型" required>
+                    <el-select v-model="orgForm.org_type">
+                        <el-option label="學校" value="school"></el-option>
+                        <el-option label="縣市教育局" value="county"></el-option>
+                        <el-option label="教育署" value="ministry"></el-option>
+                        <el-option label="承辦單位" value="contractor"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="學校層級" v-if="orgForm.org_type=='school'">
+                    <el-select v-model="orgForm.level">
+                        <el-option label="國小" value="elementary"></el-option>
+                        <el-option label="國中" value="junior_high"></el-option>
+                        <el-option label="國中小" value="both"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="縣市">
+                    <el-input v-model="orgForm.county"></el-input>
+                </el-form-item>
+                <el-form-item label="區域">
+                    <el-input v-model="orgForm.district"></el-input>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <el-input v-model="orgForm.address"></el-input>
+                </el-form-item>
+                <el-form-item label="電話">
+                    <el-input v-model="orgForm.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="負責人">
+                    <el-input v-model="orgForm.principal"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer">
+                <el-button @click="orgDialog=false">取消</el-button>
+                <el-button type="primary" @click="saveOrg">確定</el-button>
+            </span>
+        </el-dialog>
+    </template>
+</div>
+<script>
+var app = new Vue({
+    el: '#app',
+    delimiters:["<{","}>"],
+    data: {
+        fullscreenLoading: false,
+        orgList: [], total: 0, currentPage: 1, pageSize: 20,
+        searchForm: { org_type: '', county: '' },
+        orgDialog: false,
+        orgForm: { id: '', name: '', code: '', org_type: 'school', level: '', county: '', district: '', address: '', phone: '', principal: '' }
+    },
+    methods: {
+        sendAjax(url, method, params, callback) {
+            let _this = this;
+            $.ajax({ type: method, url: url, data: params, headers: { "token": localStorage.getItem("token") },
+                success: function(data) { if (data.code != 200) { _this.$message({ message: data.msg, type: 'error' }); } else { callback(data); } }
+            });
+        },
+        searchOrgs() {
+            let _this = this;
+            this.sendAjax("/org/list", "GET", { org_type: this.searchForm.org_type, county: this.searchForm.county, page: this.currentPage, page_size: this.pageSize }, function(data) {
+                _this.orgList = data.result || []; _this.total = data.total || 0;
+            });
+        },
+        handlePageChange(page) { this.currentPage = page; this.searchOrgs(); },
+        addOrg() { this.orgForm = { id: '', name: '', code: '', org_type: 'school', level: '', county: '', district: '', address: '', phone: '', principal: '' }; this.orgDialog = true; },
+        editOrg(row) { this.orgForm = Object.assign({}, row); this.orgDialog = true; },
+        saveOrg() {
+            let _this = this;
+            this.sendAjax("/org/save", "POST", this.orgForm, function(data) {
+                _this.orgDialog = false; _this.$message({ message: data.msg, type: 'success' }); _this.searchOrgs();
+            });
+        },
+        deleteOrg(id) {
+            let _this = this;
+            this.$confirm('確定刪除此組織？', '提示', { type: 'warning' }).then(function() {
+                _this.sendAjax("/org/delete?id=" + id, "DELETE", {}, function(data) {
+                    _this.$message({ message: '刪除成功', type: 'success' }); _this.searchOrgs();
+                });
+            });
+        }
+    },
+    created: function() { this.searchOrgs(); }
+});
+</script>
+</body>
+</html>

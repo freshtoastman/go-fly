@@ -7,6 +7,15 @@ import (
 )
 
 func InitViewRouter(engine *gin.Engine) {
+	// 課程計畫填報系統頁面
+	engine.GET("/curriculum_plans", middleware.JwtPageMiddleware, tmpl.PageCurriculumPlans)
+	engine.GET("/curriculum_plan_edit", middleware.JwtPageMiddleware, tmpl.PageCurriculumPlanEdit)
+	engine.GET("/curriculum_submissions", middleware.JwtPageMiddleware, tmpl.PageCurriculumSubmissions)
+	engine.GET("/curriculum_submission_edit", middleware.JwtPageMiddleware, tmpl.PageCurriculumSubmissionEdit)
+	engine.GET("/curriculum_review", middleware.JwtPageMiddleware, tmpl.PageCurriculumReview)
+	engine.GET("/curriculum_organizations", middleware.JwtPageMiddleware, tmpl.PageOrganizations)
+	engine.GET("/curriculum_statistics", middleware.JwtPageMiddleware, tmpl.PageCurriculumStats)
+
 	engine.GET("/", tmpl.PageIndex)
 
 	engine.GET("/login", tmpl.PageLogin)

@@ -1,0 +1,134 @@
+{{template "header" }}
+<div id="app" style="width:100%;padding:20px;">
+    <template>
+        <el-container v-loading.fullscreen.lock="fullscreenLoading">
+            <el-main class="mainMain">
+                <h3>計畫表單欄位設定</h3>
+                <el-row :gutter="10" style="margin-bottom:15px;">
+                    <el-col :span="4">
+                        <el-input v-model="planId" placeholder="計畫ID" size="small"></el-input>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-button type="primary" size="small" @click="loadFields">載入欄位</el-button>
+                        <el-button type="success" size="small" @click="addField">新增欄位</el-button>
+                    </el-col>
+                </el-row>
+
+                <el-table :data="fieldList" border style="width:100%">
+                    <el-table-column prop="sort_order" label="排序" width="60"></el-table-column>
+                    <el-table-column prop="field_name" label="欄位名稱" width="150"></el-table-column>
+                    <el-table-column prop="field_label" label="標籤"></el-table-column>
+                    <el-table-column prop="field_type" label="類型" width="100"></el-table-column>
+                    <el-table-column prop="group_name" label="分組" width="120"></el-table-column>
+                    <el-table-column prop="required" label="必填" width="60">
+                        <template slot-scope="scope">
+                            <el-tag v-if="scope.row.required" type="danger" size="mini">是</el-tag>
+                            <el-tag v-else type="info" size="mini">否</el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作" width="180">
+                        <template slot-scope="scope">
+                            <el-button @click="editField(scope.row)" type="primary" size="mini">編輯</el-button>
+                            <el-button @click="deleteField(scope.row.id)" type="danger" size="mini">刪除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+
+        <el-dialog :title="fieldForm.id?'編輯欄位':'新增欄位'" :visible.sync="fieldDialog" width="50%" top="5vh">
+            <el-form ref="fieldForm" :model="fieldForm" label-width="100px">
+                <el-form-item label="欄位名稱" required>
+                    <el-input v-model="fieldForm.field_name"></el-input>
+                </el-form-item>
+                <el-form-item label="標籤">
+                    <el-input v-model="fieldForm.field_label"></el-input>
+                </el-form-item>
+                <el-form-item label="欄位類型" required>
+                    <el-select v-model="fieldForm.field_type">
+                        <el-option label="文字" value="text"></el-option>
+                        <el-option label="多行文字" value="textarea"></el-option>
+                        <el-option label="下拉選單" value="select"></el-option>
+                        <el-option label="單選" value="radio"></el-option>
+                        <el-option label="多選" value="checkbox"></el-option>
+                        <el-option label="檔案上傳" value="file"></el-option>
+                        <el-option label="日期" value="date"></el-option>
+                        <el-option label="數字" value="number"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="是否必填">
+                    <el-switch v-model="fieldForm.required"></el-switch>
+                </el-form-item>
+                <el-form-item label="選項" v-if="['select','radio','checkbox'].includes(fieldForm.field_type)">
+                    <el-input type="textarea" v-model="fieldForm.options" :rows="3" placeholder='JSON 格式，例: ["選項A","選項B"]'></el-input>
+                </el-form-item>
+                <el-form-item label="分組名稱">
+                    <el-input v-model="fieldForm.group_name"></el-input>
+                </el-form-item>
+                <el-form-item label="提示文字">
+                    <el-input v-model="fieldForm.placeholder"></el-input>
+                </el-form-item>
+                <el-form-item label="排序">
+                    <el-input-number v-model="fieldForm.sort_order" :min="0"></el-input-number>
+                </el-form-item>
+            </el-form>
+            <span slot="footer">
+                <el-button @click="fieldDialog=false">取消</el-button>
+                <el-button type="primary" @click="saveField">確定</el-button>
+            </span>
+        </el-dialog>
+    </template>
+</div>
+<script>
+var app = new Vue({
+    el: '#app',
+    delimiters:["<{","}>"],
+    data: {
+        fullscreenLoading: false,
+        planId: '',
+        fieldList: [],
+        fieldDialog: false,
+        fieldForm: { id: '', plan_id: '', field_name: '', field_type: 'text', field_label: '', required: false, options: '', sort_order: 0, group_name: '', placeholder: '' }
+    },
+    methods: {
+        sendAjax(url, method, params, callback) {
+            let _this = this;
+            $.ajax({ type: method, url: url, data: params, headers: { "token": localStorage.getItem("token") },
+                success: function(data) { if (data.code != 200) { _this.$message({ message: data.msg, type: 'error' }); } else { callback(data); } }
+            });
+        },
+        loadFields() {
+            let _this = this;
+            if (!this.planId) { this.$message({ message: '請輸入計畫ID', type: 'warning' }); return; }
+            this.sendAjax("/curriculum/plan_fields", "GET", { plan_id: this.planId }, function(data) {
+                _this.fieldList = data.result || [];
+            });
+        },
+        addField() {
+            if (!this.planId) { this.$message({ message: '請先輸入計畫ID', type: 'warning' }); return; }
+            this.fieldForm = { id: '', plan_id: this.planId, field_name: '', field_type: 'text', field_label: '', required: false, options: '', sort_order: 0, group_name: '', placeholder: '' };
+            this.fieldDialog = true;
+        },
+        editField(row) { this.fieldForm = Object.assign({}, row); this.fieldForm.required = !!row.required; this.fieldDialog = true; },
+        saveField() {
+            let _this = this;
+            let params = Object.assign({}, this.fieldForm);
+            params.required = params.required ? 'true' : 'false';
+            params.sort_order = String(params.sort_order);
+            this.sendAjax("/curriculum/plan_field", "POST", params, function(data) {
+                _this.fieldDialog = false; _this.$message({ message: data.msg, type: 'success' }); _this.loadFields();
+            });
+        },
+        deleteField(id) {
+            let _this = this;
+            this.$confirm('確定刪除此欄位？', '提示', { type: 'warning' }).then(function() {
+                _this.sendAjax("/curriculum/plan_field?id=" + id, "DELETE", {}, function(data) {
+                    _this.$message({ message: '刪除成功', type: 'success' }); _this.loadFields();
+                });
+            });
+        }
+    }
+});
+</script>
+</body>
+</html>

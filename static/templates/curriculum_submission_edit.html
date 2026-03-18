@@ -1,0 +1,116 @@
+{{template "header" }}
+<div id="app" style="width:100%;padding:20px;">
+    <template>
+        <el-container v-loading.fullscreen.lock="fullscreenLoading">
+            <el-main class="mainMain">
+                <h3>課程計畫填報</h3>
+                <el-alert v-if="planInfo.name" :title="'計畫: '+planInfo.name" type="info" :closable="false" style="margin-bottom:15px;">
+                    <template slot="">
+                        <p>學年度: <{planInfo.school_year}> | 學期: <{planInfo.semester==1?'上學期':'下學期'}></p>
+                        <p v-if="planInfo.submit_deadline">填報截止: <{planInfo.submit_deadline}></p>
+                    </template>
+                </el-alert>
+
+                <el-form ref="subForm" :model="subForm" label-width="120px" v-if="formFields.length>0">
+                    <template v-for="field in formFields">
+                        <el-form-item :label="field.field_label||field.field_name" :required="field.required">
+                            <el-input v-if="field.field_type=='text'" v-model="formData[field.field_name]" :placeholder="field.placeholder"></el-input>
+                            <el-input v-else-if="field.field_type=='textarea'" type="textarea" v-model="formData[field.field_name]" :rows="4" :placeholder="field.placeholder"></el-input>
+                            <el-input-number v-else-if="field.field_type=='number'" v-model="formData[field.field_name]"></el-input-number>
+                            <el-date-picker v-else-if="field.field_type=='date'" v-model="formData[field.field_name]" type="date" value-format="yyyy-MM-dd"></el-date-picker>
+                            <el-select v-else-if="field.field_type=='select'" v-model="formData[field.field_name]" :placeholder="field.placeholder">
+                                <el-option v-for="opt in parseOptions(field.options)" :key="opt" :label="opt" :value="opt"></el-option>
+                            </el-select>
+                            <el-radio-group v-else-if="field.field_type=='radio'" v-model="formData[field.field_name]">
+                                <el-radio v-for="opt in parseOptions(field.options)" :key="opt" :label="opt"></el-radio>
+                            </el-radio-group>
+                            <el-checkbox-group v-else-if="field.field_type=='checkbox'" v-model="formData[field.field_name]">
+                                <el-checkbox v-for="opt in parseOptions(field.options)" :key="opt" :label="opt"></el-checkbox>
+                            </el-checkbox-group>
+                            <el-input v-else v-model="formData[field.field_name]" :placeholder="field.placeholder"></el-input>
+                        </el-form-item>
+                    </template>
+                    <el-form-item label="備註">
+                        <el-input type="textarea" v-model="subForm.remark" :rows="2"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="saveSubmission">儲存草稿</el-button>
+                        <el-button type="success" @click="submitSubmission">儲存並送出</el-button>
+                    </el-form-item>
+                </el-form>
+
+                <el-empty v-if="formFields.length==0 && !fullscreenLoading" description="請先選擇計畫，或該計畫尚未設定表單欄位">
+                    <el-row :gutter="10">
+                        <el-col :span="6">
+                            <el-input v-model="queryPlanId" placeholder="計畫ID" size="small"></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-input v-model="querySchoolId" placeholder="學校ID" size="small"></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button type="primary" size="small" @click="loadPlan">載入計畫</el-button>
+                        </el-col>
+                    </el-row>
+                </el-empty>
+            </el-main>
+        </el-container>
+    </template>
+</div>
+<script>
+var app = new Vue({
+    el: '#app',
+    delimiters:["<{","}>"],
+    data: {
+        fullscreenLoading: false,
+        queryPlanId: '', querySchoolId: '',
+        planInfo: {}, formFields: [], formData: {},
+        subForm: { id: '', plan_id: '', school_id: '', content: '', remark: '' }
+    },
+    methods: {
+        sendAjax(url, method, params, callback) {
+            let _this = this;
+            $.ajax({ type: method, url: url, data: params, headers: { "token": localStorage.getItem("token") },
+                success: function(data) { if (data.code != 200) { _this.$message({ message: data.msg, type: 'error' }); } else { callback(data); } }
+            });
+        },
+        parseOptions(optStr) {
+            try { return JSON.parse(optStr); } catch(e) { return []; }
+        },
+        loadPlan() {
+            let _this = this;
+            if (!this.queryPlanId) { this.$message({ message: '請輸入計畫ID', type: 'warning' }); return; }
+            this.sendAjax("/curriculum/plan", "GET", { id: this.queryPlanId }, function(data) {
+                _this.planInfo = data.result || {};
+                _this.formFields = data.fields || [];
+                _this.subForm.plan_id = _this.queryPlanId;
+                _this.subForm.school_id = _this.querySchoolId;
+                _this.formData = {};
+                _this.formFields.forEach(function(f) {
+                    if (f.field_type == 'checkbox') { _this.$set(_this.formData, f.field_name, []); }
+                    else { _this.$set(_this.formData, f.field_name, ''); }
+                });
+            });
+        },
+        saveSubmission() {
+            let _this = this;
+            this.subForm.content = JSON.stringify(this.formData);
+            this.sendAjax("/curriculum/submission", "POST", this.subForm, function(data) {
+                _this.subForm.id = data.result ? data.result.id : _this.subForm.id;
+                _this.$message({ message: '儲存成功', type: 'success' });
+            });
+        },
+        submitSubmission() {
+            let _this = this;
+            this.subForm.content = JSON.stringify(this.formData);
+            this.sendAjax("/curriculum/submission", "POST", this.subForm, function(data) {
+                _this.subForm.id = data.result ? String(data.result.id) : _this.subForm.id;
+                _this.sendAjax("/curriculum/submit", "POST", { id: _this.subForm.id }, function(data2) {
+                    _this.$message({ message: '送出成功', type: 'success' });
+                });
+            });
+        }
+    }
+});
+</script>
+</body>
+</html>

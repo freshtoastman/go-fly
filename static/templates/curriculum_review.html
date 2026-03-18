@@ -1,0 +1,123 @@
+{{template "header" }}
+<div id="app" style="width:100%;padding:20px;">
+    <template>
+        <el-container v-loading.fullscreen.lock="fullscreenLoading">
+            <el-main class="mainMain">
+                <h3>課程計畫審查</h3>
+                <el-row :gutter="10" style="margin-bottom:15px;">
+                    <el-col :span="4">
+                        <el-select v-model="searchForm.status" placeholder="狀態" size="small" clearable>
+                            <el-option label="已送出(待審)" value="submitted"></el-option>
+                            <el-option label="已通過" value="approved"></el-option>
+                            <el-option label="已退回" value="rejected"></el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-button type="primary" size="small" @click="searchSubmissions">查詢</el-button>
+                    </el-col>
+                </el-row>
+
+                <el-table :data="subList" border style="width:100%">
+                    <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                    <el-table-column prop="plan_id" label="計畫ID" width="80"></el-table-column>
+                    <el-table-column prop="school_id" label="學校ID" width="80"></el-table-column>
+                    <el-table-column prop="status" label="狀態" width="100">
+                        <template slot-scope="scope">
+                            <el-tag v-if="scope.row.status=='submitted'" type="warning" size="small">待審查</el-tag>
+                            <el-tag v-else-if="scope.row.status=='approved'" type="success" size="small">已通過</el-tag>
+                            <el-tag v-else-if="scope.row.status=='rejected'" type="danger" size="small">已退回</el-tag>
+                            <el-tag v-else size="small"><{scope.row.status}></el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="submitted_at" label="送出時間" width="160"></el-table-column>
+                    <el-table-column label="操作" width="200">
+                        <template slot-scope="scope">
+                            <el-button @click="openReview(scope.row)" type="primary" size="mini">審查</el-button>
+                            <el-button @click="viewDetail(scope.row)" type="info" size="mini">檢視</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <el-pagination style="margin-top:15px;" @current-change="handlePageChange" :current-page="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total"></el-pagination>
+            </el-main>
+        </el-container>
+
+        <el-dialog title="審查填報" :visible.sync="reviewDialog" width="50%" top="5vh">
+            <el-form ref="reviewForm" :model="reviewForm" label-width="100px">
+                <el-form-item label="審查角色">
+                    <el-select v-model="reviewForm.reviewer_role">
+                        <el-option label="縣市端" value="county"></el-option>
+                        <el-option label="委員" value="committee"></el-option>
+                        <el-option label="署內人員" value="ministry"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="審查結果" required>
+                    <el-radio-group v-model="reviewForm.result">
+                        <el-radio label="approved">通過</el-radio>
+                        <el-radio label="rejected">退回</el-radio>
+                        <el-radio label="returned">退件修正</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="評分">
+                    <el-input-number v-model="reviewForm.score" :min="0" :max="100"></el-input-number>
+                </el-form-item>
+                <el-form-item label="審查意見">
+                    <el-input type="textarea" v-model="reviewForm.comment" :rows="4"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer">
+                <el-button @click="reviewDialog=false">取消</el-button>
+                <el-button type="primary" @click="submitReview">提交審查</el-button>
+            </span>
+        </el-dialog>
+
+        <el-dialog title="填報詳情" :visible.sync="detailDialog" width="60%">
+            <pre style="white-space:pre-wrap;word-break:break-all;"><{currentDetail.content}></pre>
+            <p><strong>備註：</strong><{currentDetail.remark}></p>
+        </el-dialog>
+    </template>
+</div>
+<script>
+var app = new Vue({
+    el: '#app',
+    delimiters:["<{","}>"],
+    data: {
+        fullscreenLoading: false,
+        subList: [], total: 0, currentPage: 1, pageSize: 20,
+        searchForm: { status: 'submitted' },
+        reviewDialog: false, detailDialog: false,
+        reviewForm: { submission_id: '', reviewer_role: 'county', result: '', score: 80, comment: '' },
+        currentDetail: {}
+    },
+    methods: {
+        sendAjax(url, method, params, callback) {
+            let _this = this;
+            $.ajax({ type: method, url: url, data: params, headers: { "token": localStorage.getItem("token") },
+                success: function(data) { if (data.code != 200) { _this.$message({ message: data.msg, type: 'error' }); } else { callback(data); } }
+            });
+        },
+        searchSubmissions() {
+            let _this = this;
+            this.sendAjax("/curriculum/submissions", "GET", { status: this.searchForm.status, page: this.currentPage, page_size: this.pageSize }, function(data) {
+                _this.subList = data.result || []; _this.total = data.total || 0;
+            });
+        },
+        handlePageChange(page) { this.currentPage = page; this.searchSubmissions(); },
+        openReview(row) {
+            this.reviewForm = { submission_id: row.id, reviewer_role: 'county', result: '', score: 80, comment: '' };
+            this.reviewDialog = true;
+        },
+        submitReview() {
+            let _this = this;
+            if (!this.reviewForm.result) { this.$message({ message: '請選擇審查結果', type: 'warning' }); return; }
+            this.sendAjax("/curriculum/review", "POST", this.reviewForm, function(data) {
+                _this.reviewDialog = false; _this.$message({ message: '審查完成', type: 'success' }); _this.searchSubmissions();
+            });
+        },
+        viewDetail(row) { this.currentDetail = row; this.detailDialog = true; }
+    },
+    created: function() { this.searchSubmissions(); }
+});
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/taoshihan1991/imaptool/common"
 	"github.com/taoshihan1991/imaptool/middleware"
+	"github.com/taoshihan1991/imaptool/models"
 	"github.com/taoshihan1991/imaptool/router"
 	"github.com/taoshihan1991/imaptool/static"
 	"github.com/taoshihan1991/imaptool/tools"
@@ -75,6 +76,9 @@ func run() {
 
 	//记录日志
 	engine.Use(middleware.NewMidLogger())
+	// 自動建立課程計畫填報系統資料表
+	models.AutoMigrateCurriculum()
+
 	router.InitViewRouter(engine)
 	router.InitApiRouter(engine)
 	//记录pid
